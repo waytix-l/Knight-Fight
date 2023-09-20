@@ -9,6 +9,7 @@ import (
 type GameEngine struct {
 	ScreenWidth int32
 	ScreenHeight int32
+	Title string
 	Running bool
 	Sprite SpriteStruct
 }
@@ -17,11 +18,21 @@ func (g *GameEngine) PrintScreenSize() {
 	fmt.Println(g.ScreenWidth, "*", g.ScreenHeight)
 }
 
-func (g *GameEngine) InitGameEngine(x, y int32) {
+func (g *GameEngine) InitGameEngine(x int32, y int32, title string) {
 	g.ScreenWidth = x
 	g.ScreenHeight = y
+	g.Title = title
+	rl.InitWindow(g.ScreenWidth, g.ScreenHeight, g.Title)
+	g.Sprite.Bouton_start = rl.LoadTexture("../assets/Tilesets/bouton_start.png")
+	rl.SetTargetFPS(60)
+	rl.DrawTexture(g.Sprite.Bouton_start, 0, 0, rl.White)
+
 }
 
+func (g *GameEngine) RunningGameEngine() {
+
+	
+}
 
 
 
