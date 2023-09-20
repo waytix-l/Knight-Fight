@@ -24,7 +24,6 @@ func main() {
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.White)
-		rl.DrawText("aaaaaaaaaa", 10, 10, 20, rl.Black)
 		rl.DrawTexture(startButton, 1200, y/8 + 150, rl.RayWhite)
 		rl.DrawTexture(settingsButton, 1200, y/4 + 150, rl.RayWhite)
 		rl.DrawTexture(quitButton, 1200, y/2 + 15, rl.RayWhite)
