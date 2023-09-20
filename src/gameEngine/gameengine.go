@@ -35,6 +35,23 @@ func (g *GameEngine) RunningGameEngine() {
 
 //--------------------------------------------
 
+type FrameDisposal int 
+const (
+	FrameDisposalNone FrameDisposal = iota
+	FrameDisposalDontDispose
+	FrameDisposalRestoreBackground
+	FrameDisposalRestorePrevious
+)
+
+type GifImage struct {
+	Texture rl.Texture2D
+	Width int
+	Height int
+	Frames int
+	Timing []int
+	Disposal []FrameDisposal
+}
+
 
 type ClassPerso int
 
