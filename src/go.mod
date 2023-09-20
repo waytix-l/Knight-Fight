@@ -1,4 +1,4 @@
-module main
+module game
 
 go 1.18
 

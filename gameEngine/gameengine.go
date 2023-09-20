@@ -1,11 +1,16 @@
 package gameEngine
 
-import "fmt"
+import (
+	"fmt"
+	rl "github.com/gen2brain/raylib-go/raylib"
+
+)
 
 type GameEngine struct {
 	ScreenWidth int32
 	ScreenHeight int32
 	Running bool
+	Sprite SpriteStruct
 }
 
 func (g *GameEngine) PrintScreenSize() {
@@ -16,6 +21,8 @@ func (g *GameEngine) InitGameEngine(x, y int32) {
 	g.ScreenWidth = x
 	g.ScreenHeight = y
 }
+
+
 
 
 //--------------------------------------------
@@ -46,3 +53,12 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.currentHealthPoint = CurrentHealthPoint
 	p.inventory = Inventory
 }
+
+type SpriteStruct struct {
+	Bouton_start rl.Texture2D
+	Bouton_quit rl.Texture2D
+	Bouton_setting rl.Texture2D
+	Grass rl.Texture2D
+}
+
+
