@@ -111,7 +111,8 @@ func init() {
 	rl.SetTargetFPS(60)
 
 	grassSprite = rl.LoadTexture("/home/zeus/Bureau/Sprout Lands - Sprites - Basic pack/Tilesets/Grass.png")
-	playerSprite = rl.LoadTexture("/home/zeus/Bureau/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png")
+	playerSprite = rl.LoadTexture("/home/zeus/Bureau/Knight-Fight/docs/Characters/Basic Charakter Spritesheet.png")
+
 	playerSrc = rl.NewRectangle(0, 0, 48, 48)
 	playerDest = rl.NewRectangle(200, 200, 100, 100)
 
