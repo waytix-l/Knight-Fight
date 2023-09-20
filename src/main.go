@@ -1,7 +1,7 @@
 package main
 
 import (
-	ge "../game/gameEngine"
+	ge "game/gameEngine"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
