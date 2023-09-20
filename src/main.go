@@ -12,7 +12,7 @@ import (
 
 func main() {
 	var g ge.GameEngine
-	g.InitGameEngine(100, 800, "Knight Fight")
+	g.InitGameEngine(1920, 1080, "Knight Fight")
 	rl.ToggleFullscreen()
 	x:= int32(rl.GetMonitorWidth(rl.GetCurrentMonitor()))
 	y := int32(rl.GetMonitorHeight(rl.GetCurrentMonitor()))
@@ -25,9 +25,9 @@ func main() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.White)
 		rl.DrawText("aaaaaaaaaa", 10, 10, 20, rl.Black)
-		rl.DrawTexture(startButton, x/2-x/5, y/8, rl.RayWhite)
-		rl.DrawTexture(settingsButton, x/2-x/5, y/4, rl.RayWhite)
-		rl.DrawTexture(quitButton, x/2-x/5, y/2 - 120, rl.RayWhite)
+		rl.DrawTexture(startButton, -100, y/8 + 150, rl.RayWhite)
+		rl.DrawTexture(settingsButton, -100, y/4 + 150, rl.RayWhite)
+		rl.DrawTexture(quitButton, -100, y/2 + 15, rl.RayWhite)
 		
 
 
