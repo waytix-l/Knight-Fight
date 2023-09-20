@@ -23,15 +23,12 @@ func (g *GameEngine) InitGameEngine(x int32, y int32, title string) {
 	g.ScreenHeight = y
 	g.Title = title
 	rl.InitWindow(g.ScreenWidth, g.ScreenHeight, g.Title)
-	g.Sprite.Bouton_start = rl.LoadTexture("../assets/Tilesets/bouton_start.png")
 	rl.SetTargetFPS(60)
-	rl.DrawTexture(g.Sprite.Bouton_start, 0, 0, rl.White)
-
 }
 
 func (g *GameEngine) RunningGameEngine() {
 
-	
+
 }
 
 
