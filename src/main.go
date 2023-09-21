@@ -14,7 +14,9 @@ func main() {
 	var sr rl.Rectangle
 	var dr rl.Rectangle
 
-	sr = rl.NewRectangle(0, 0, 100, 100)
+	sr = rl.NewRectangle(0, 0, 700, 500)
+	dr = rl.NewRectangle(0,0, 1920, 1080)
+	vecteur := rl.NewVector2(0,0)
 	
 	g.InitGameEngine(1920, 1080, "Knight Fight")
 	rl.ToggleFullscreen()
@@ -33,7 +35,7 @@ func main() {
 			fond,
 			sr,
 			dr,
-			0,
+			vecteur,
 			0,
 			rl.RayWhite,
 		)
@@ -42,6 +44,12 @@ func main() {
 		rl.DrawTexture(quitButton, 1200, y/2+15, rl.RayWhite)
 
 		rl.EndDrawing()
+
+
+		x = rl.GetMouseX(); y = rl.GetMouseY()
+		if x > 1200 {
+			
+		}
 	}
 
 	rl.CloseWindow()
