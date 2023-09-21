@@ -87,3 +87,30 @@ type SpriteStruct struct {
 }
 
 
+type SourceRectangle struct {
+	X float32
+	Y float32
+	Width float32
+	Height float32
+}
+
+type DestRectangle struct {
+	X float32
+	Y float32
+	Width float32
+	Height float32
+}
+
+func (r *SourceRectangle) InitSourceRectangle(x float32, y float32, width float32, height float32) {
+	r.X = x
+	r.Y = y
+	r.Width = width
+	r.Height = height
+}
+
+func (r *DestRectangle) InitDestRectangle(x float32, y float32, width float32, height float32) {
+	r.X = x
+	r.Y = y
+	r.Width = width
+	r.Height = height
+}

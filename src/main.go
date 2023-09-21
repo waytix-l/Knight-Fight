@@ -4,12 +4,18 @@ import (
 	"fmt"
 	ge "game/gameEngine"
 
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 	//rlplus "github.com/lachee/raylib-goplus/raylib"
 )
 
 func main() {
 	var g ge.GameEngine
+	var sr rl.Rectangle
+	var dr rl.Rectangle
+
+	sr = rl.NewRectangle(0, 0, 100, 100)
+	
 	g.InitGameEngine(1920, 1080, "Knight Fight")
 	rl.ToggleFullscreen()
 	x := int32(rl.GetMonitorWidth(rl.GetCurrentMonitor()))
@@ -23,7 +29,14 @@ func main() {
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.White)
-		rl.DrawTexture(fond, 0, 0, rl.RayWhite)
+		rl.DrawTexturePro(
+			fond,
+			sr,
+			dr,
+			0,
+			0,
+			rl.RayWhite,
+		)
 		rl.DrawTexture(startButton, 1200, y/8+150, rl.RayWhite)
 		rl.DrawTexture(settingsButton, 1200, y/4+150, rl.RayWhite)
 		rl.DrawTexture(quitButton, 1200, y/2+15, rl.RayWhite)
