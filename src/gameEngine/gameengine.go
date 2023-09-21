@@ -41,11 +41,12 @@ func (g *GameEngine) RunningGameEngine() {
 	fmt.Print(x, y)
 	startButton := rl.LoadTexture("assets/Tilesets/bouton_start2.png")
 	quitButton := rl.LoadTexture("assets/Tilesets/bouton_quit2.png")
-	settingsButton := rl.LoadTexture("assets/Tilesets/bouton_settings2.png")
+	settingsButton := rl.LoadTexture("assets/Tilesets/bouton_test_settings.png")
 	startButtonOver := rl.LoadTexture("assets/Tilesets/bouton_start_gris.png")
 	quitButtonOver := rl.LoadTexture("assets/Tilesets/bouton_quit_gris.png")
 	settingsButtonOver := rl.LoadTexture("assets/Tilesets/bouton_settings_gris.png")
 	fond := rl.LoadTexture("assets/Tilesets/Fond_anime.png")
+	title := rl.LoadTexture("assets/Tilesets/knight_fight_title.png")
 	bouton_x := 1200
 	bouton_y := 400
 	menu := 0
@@ -75,7 +76,14 @@ func (g *GameEngine) RunningGameEngine() {
 			}
 			
 			
-
+			rl.DrawTexturePro(
+				title,
+				rl.NewRectangle(0, 0, 800, 500),
+				rl.NewRectangle(470, -140, 1000, 650),
+				rl.NewVector2(0,0),
+				0,
+				rl.White,
+			)
 			rl.DrawTexture(startButton, int32(bouton_x), int32(bouton_y), rl.RayWhite)
 			rl.DrawTexture(settingsButton, int32(bouton_x), int32(bouton_y)+150, rl.RayWhite)
 			rl.DrawTexture(quitButton, int32(bouton_x), int32(bouton_y)+300, rl.RayWhite)
@@ -150,23 +158,6 @@ func (g *GameEngine) RunningGameEngine() {
 
 
 //--------------------------------------------
-
-type FrameDisposal int 
-const (
-	FrameDisposalNone FrameDisposal = iota
-	FrameDisposalDontDispose
-	FrameDisposalRestoreBackground
-	FrameDisposalRestorePrevious
-)
-
-type GifImage struct {
-	Texture rl.Texture2D
-	Width int
-	Height int
-	Frames int
-	Timing []int
-	Disposal []FrameDisposal
-}
 
 
 type ClassPerso int
