@@ -31,7 +31,7 @@ func (g *GameEngine) RunningGameEngine() {
 	var sr rl.Rectangle
 	var dr rl.Rectangle
 
-	sr = rl.NewRectangle(0, 0, 700, 500)
+	sr = rl.NewRectangle(0, 0, 800, 500)
 	dr = rl.NewRectangle(0, 0, 1920, 1080)
 	vecteur := rl.NewVector2(0, 0)
 
@@ -45,19 +45,20 @@ func (g *GameEngine) RunningGameEngine() {
 	startButtonOver := rl.LoadTexture("assets/Tilesets/bouton_start_gris.png")
 	quitButtonOver := rl.LoadTexture("assets/Tilesets/bouton_quit_gris.png")
 	settingsButtonOver := rl.LoadTexture("assets/Tilesets/bouton_settings_gris.png")
-	fond := rl.LoadTexture("assets/Tilesets/Tittle_Screen_jeu.png")
+	fond := rl.LoadTexture("assets/Tilesets/Fond_anime.png")
 	bouton_x := 1200
 	bouton_y := 400
 	menu := 0
 	color_black := rl.ColorAlpha(rl.Black, 0.5)
 	color_gray := rl.ColorAlpha(rl.Gray, 0.5)
+	frame_count := 0
 
 	for !rl.WindowShouldClose() {
 		switch menu {
 		case 0 :
+			frame_count++
 			rl.BeginDrawing()
 			rl.ClearBackground(rl.White)
-
 			rl.DrawTexturePro(
 				fond,
 				sr,
@@ -66,6 +67,14 @@ func (g *GameEngine) RunningGameEngine() {
 				0,
 				rl.RayWhite,
 			)
+			if sr.Width == 5600 {
+				sr.X = 0
+			} else if frame_count == 8 {
+				sr.X += 800
+				frame_count = 0
+			}
+			
+			
 
 			rl.DrawTexture(startButton, int32(bouton_x), int32(bouton_y), rl.RayWhite)
 			rl.DrawTexture(settingsButton, int32(bouton_x), int32(bouton_y)+150, rl.RayWhite)
