@@ -39,12 +39,12 @@ func (g *GameEngine) RunningGameEngine() {
 	x := int32(rl.GetMonitorWidth(rl.GetCurrentMonitor()))
 	y := int32(rl.GetMonitorHeight(rl.GetCurrentMonitor()))
 	fmt.Print(x, y)
-	startButton := rl.LoadTexture("assets/Tilesets/bouton_start2.png")
-	quitButton := rl.LoadTexture("assets/Tilesets/bouton_quit2.png")
-	settingsButton := rl.LoadTexture("assets/Tilesets/bouton_test_settings.png")
-	startButtonOver := rl.LoadTexture("assets/Tilesets/bouton_start_gris.png")
-	quitButtonOver := rl.LoadTexture("assets/Tilesets/bouton_quit_gris.png")
-	settingsButtonOver := rl.LoadTexture("assets/Tilesets/bouton_settings_gris.png")
+	startButton := rl.LoadTexture("assets/Tilesets/bouton_start3.png")
+	quitButton := rl.LoadTexture("assets/Tilesets/bouton_quit3.png")
+	settingsButton := rl.LoadTexture("assets/Tilesets/bouton_settings3.png")
+	startButtonOver := rl.LoadTexture("assets/Tilesets/bouton_start_gris2.png")
+	quitButtonOver := rl.LoadTexture("assets/Tilesets/bouton_quit_gris2.png")
+	settingsButtonOver := rl.LoadTexture("assets/Tilesets/bouton_settings_gris2.png")
 	fond := rl.LoadTexture("assets/Tilesets/Fond_anime.png")
 	title := rl.LoadTexture("assets/Tilesets/knight_fight_title.png")
 	bouton_x := 1200
@@ -85,12 +85,12 @@ func (g *GameEngine) RunningGameEngine() {
 				rl.White,
 			)
 			rl.DrawTexture(startButton, int32(bouton_x), int32(bouton_y), rl.RayWhite)
-			rl.DrawTexture(settingsButton, int32(bouton_x), int32(bouton_y)+150, rl.RayWhite)
-			rl.DrawTexture(quitButton, int32(bouton_x), int32(bouton_y)+300, rl.RayWhite)
+			rl.DrawTexture(settingsButton, int32(bouton_x), int32(bouton_y)+125, rl.RayWhite)
+			rl.DrawTexture(quitButton, int32(bouton_x), int32(bouton_y)+250, rl.RayWhite)
 
 			x_mouse := rl.GetMouseX()
 			y_mouse := rl.GetMouseY()
-			if x_mouse > int32(bouton_x)+270 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+130 && y_mouse < int32(bouton_y)+250 {
+			if x_mouse > int32(bouton_x)+285 && x_mouse < int32(bouton_x)+525 && y_mouse > int32(bouton_y)+125 && y_mouse < int32(bouton_y)+235 {
 				rl.DrawTexture(startButtonOver, int32(bouton_x), int32(bouton_y), rl.RayWhite)
 				if rl.IsMouseButtonPressed(0) {
 					fmt.Println("Start")
@@ -98,16 +98,16 @@ func (g *GameEngine) RunningGameEngine() {
 				}
 			}
 
-			if x_mouse > int32(bouton_x)+270 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+130+150 && y_mouse < int32(bouton_y)+250+150 {
-				rl.DrawTexture(settingsButtonOver, int32(bouton_x), int32(bouton_y)+150, rl.RayWhite)
+			if x_mouse > int32(bouton_x)+285 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+125+130 && y_mouse < int32(bouton_y)+250+105 {
+				rl.DrawTexture(settingsButtonOver, int32(bouton_x), int32(bouton_y)+125, rl.RayWhite)
 				if rl.IsMouseButtonPressed(0) {
 					fmt.Println("Settings")
 					menu = 2
 				}
 			}
 
-			if x_mouse > int32(bouton_x)+270 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+130+150+150 && y_mouse < int32(bouton_y)+250+150+150 {
-				rl.DrawTexture(quitButtonOver, int32(bouton_x), int32(bouton_y)+150+150, rl.RayWhite)
+			if x_mouse > int32(bouton_x)+270 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+125+130+130 && y_mouse < int32(bouton_y)+250+105+125 {
+				rl.DrawTexture(quitButtonOver, int32(bouton_x), int32(bouton_y)+250, rl.RayWhite)
 				if rl.IsMouseButtonPressed(0) {
 					rl.CloseWindow()
 				}
