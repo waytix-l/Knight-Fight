@@ -68,8 +68,9 @@ func (g *GameEngine) RunningGameEngine() {
 				0,
 				rl.RayWhite,
 			)
-			if sr.Width == 5600 {
+			if sr.Width == 5600 && frame_count == 8 {
 				sr.X = 0
+				frame_count = 0
 			} else if frame_count == 8 {
 				sr.X += 800
 				frame_count = 0
@@ -86,7 +87,7 @@ func (g *GameEngine) RunningGameEngine() {
 			)
 			rl.DrawTexture(startButton, int32(bouton_x), int32(bouton_y), rl.RayWhite)
 			rl.DrawTexture(settingsButton, int32(bouton_x), int32(bouton_y)+125, rl.RayWhite)
-			rl.DrawTexture(quitButton, int32(bouton_x), int32(bouton_y)+250, rl.RayWhite)
+			rl.DrawTexture(quitButton, int32(bouton_x), int32(bouton_y)+255, rl.RayWhite)
 
 			x_mouse := rl.GetMouseX()
 			y_mouse := rl.GetMouseY()
@@ -106,8 +107,8 @@ func (g *GameEngine) RunningGameEngine() {
 				}
 			}
 
-			if x_mouse > int32(bouton_x)+270 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+125+130+130 && y_mouse < int32(bouton_y)+250+105+125 {
-				rl.DrawTexture(quitButtonOver, int32(bouton_x), int32(bouton_y)+250, rl.RayWhite)
+			if x_mouse > int32(bouton_x)+270 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+125+130+135 && y_mouse < int32(bouton_y)+250+105+135 {
+				rl.DrawTexture(quitButtonOver, int32(bouton_x), int32(bouton_y)+255, rl.RayWhite)
 				if rl.IsMouseButtonPressed(0) {
 					rl.CloseWindow()
 				}
