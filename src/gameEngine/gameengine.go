@@ -24,10 +24,117 @@ func (g *GameEngine) InitGameEngine(x int32, y int32, title string) {
 	g.Title = title
 	rl.InitWindow(g.ScreenWidth, g.ScreenHeight, g.Title)
 	rl.SetTargetFPS(60)
+	rl.ToggleFullscreen()
 }
 
 func (g *GameEngine) RunningGameEngine() {
+	var sr rl.Rectangle
+	var dr rl.Rectangle
 
+	sr = rl.NewRectangle(0, 0, 700, 500)
+	dr = rl.NewRectangle(0, 0, 1920, 1080)
+	vecteur := rl.NewVector2(0, 0)
+
+	
+	x := int32(rl.GetMonitorWidth(rl.GetCurrentMonitor()))
+	y := int32(rl.GetMonitorHeight(rl.GetCurrentMonitor()))
+	fmt.Print(x, y)
+	startButton := rl.LoadTexture("assets/Tilesets/bouton_start2.png")
+	quitButton := rl.LoadTexture("assets/Tilesets/bouton_quit2.png")
+	settingsButton := rl.LoadTexture("assets/Tilesets/bouton_settings2.png")
+	startButtonOver := rl.LoadTexture("assets/Tilesets/bouton_start_gris.png")
+	quitButtonOver := rl.LoadTexture("assets/Tilesets/bouton_quit_gris.png")
+	settingsButtonOver := rl.LoadTexture("assets/Tilesets/bouton_settings_gris.png")
+	fond := rl.LoadTexture("assets/Tilesets/Tittle_Screen_jeu.png")
+	bouton_x := 1200
+	bouton_y := 400
+	menu := 0
+	color_black := rl.ColorAlpha(rl.Black, 0.5)
+	color_gray := rl.ColorAlpha(rl.Gray, 0.5)
+
+	for !rl.WindowShouldClose() {
+		switch menu {
+		case 0 :
+			rl.BeginDrawing()
+			rl.ClearBackground(rl.White)
+
+			rl.DrawTexturePro(
+				fond,
+				sr,
+				dr,
+				vecteur,
+				0,
+				rl.RayWhite,
+			)
+
+			rl.DrawTexture(startButton, int32(bouton_x), int32(bouton_y), rl.RayWhite)
+			rl.DrawTexture(settingsButton, int32(bouton_x), int32(bouton_y)+150, rl.RayWhite)
+			rl.DrawTexture(quitButton, int32(bouton_x), int32(bouton_y)+300, rl.RayWhite)
+
+			x_mouse := rl.GetMouseX()
+			y_mouse := rl.GetMouseY()
+			if x_mouse > int32(bouton_x)+270 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+130 && y_mouse < int32(bouton_y)+250 {
+				rl.DrawTexture(startButtonOver, int32(bouton_x), int32(bouton_y), rl.RayWhite)
+				if rl.IsMouseButtonPressed(0) {
+					fmt.Println("Start")
+					menu = 1
+				}
+			}
+
+			if x_mouse > int32(bouton_x)+270 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+130+150 && y_mouse < int32(bouton_y)+250+150 {
+				rl.DrawTexture(settingsButtonOver, int32(bouton_x), int32(bouton_y)+150, rl.RayWhite)
+				if rl.IsMouseButtonPressed(0) {
+					fmt.Println("Settings")
+					menu = 2
+				}
+			}
+
+			if x_mouse > int32(bouton_x)+270 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+130+150+150 && y_mouse < int32(bouton_y)+250+150+150 {
+				rl.DrawTexture(quitButtonOver, int32(bouton_x), int32(bouton_y)+150+150, rl.RayWhite)
+				if rl.IsMouseButtonPressed(0) {
+					rl.CloseWindow()
+				}
+			}
+
+			rl.EndDrawing()
+
+		case 1:
+			rl.BeginDrawing()
+			rl.ClearBackground(rl.White)
+
+			rl.DrawText("Champi", 100, 100, 30, rl.Black)
+
+			rl.EndDrawing()
+
+		case 2:
+			rl.BeginDrawing()
+			rl.ClearBackground(rl.White)
+			
+			rl.DrawTexturePro(
+				fond,
+				sr,
+				dr,
+				vecteur,
+				0,
+				rl.RayWhite,
+			)
+			
+			rl.DrawRectangle(50, 50, 1830, 970, color_black)
+			rl.DrawRectangle(60, 60, 1810, 950, color_gray)
+
+
+			rl.DrawText("Settings", 70, 70, 30, rl.Black)
+
+		
+			rl.EndDrawing()
+		
+			}
+		
+			
+		
+	}
+
+	rl.CloseWindow()
 
 }
 
