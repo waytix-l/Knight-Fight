@@ -2,16 +2,16 @@ package gameEngine
 
 import (
 	"fmt"
-	rl "github.com/gen2brain/raylib-go/raylib"
 
+	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 type GameEngine struct {
-	ScreenWidth int32
+	ScreenWidth  int32
 	ScreenHeight int32
-	Title string
-	Running bool
-	Sprite SpriteStruct
+	Title        string
+	Running      bool
+	Sprite       SpriteStruct
 }
 
 func (g *GameEngine) PrintScreenSize() {
@@ -28,6 +28,7 @@ func (g *GameEngine) InitGameEngine(x int32, y int32, title string) {
 }
 
 func (g *GameEngine) RunningGameEngine() {
+	rl.SetExitKey(0)
 	var sr rl.Rectangle
 	var dr rl.Rectangle
 
@@ -35,7 +36,12 @@ func (g *GameEngine) RunningGameEngine() {
 	dr = rl.NewRectangle(0, 0, 1920, 1080)
 	vecteur := rl.NewVector2(0, 0)
 
-	
+	sourceMontagne := rl.NewRectangle(0, 0, 1600, 900)
+	destMontagne := rl.NewRectangle(0, 0, 1920, 1080)
+
+	sourceSol := rl.NewRectangle(0, 0, 3200, 1600)
+	destSol := rl.NewRectangle(0, 0, 1920, 1030)
+
 	x := int32(rl.GetMonitorWidth(rl.GetCurrentMonitor()))
 	y := int32(rl.GetMonitorHeight(rl.GetCurrentMonitor()))
 	fmt.Print(x, y)
@@ -46,6 +52,8 @@ func (g *GameEngine) RunningGameEngine() {
 	quitButtonOver := rl.LoadTexture("assets/Tilesets/bouton_quit_gris2.png")
 	settingsButtonOver := rl.LoadTexture("assets/Tilesets/bouton_settings_gris2.png")
 	fond := rl.LoadTexture("assets/Tilesets/Fond_anime.png")
+	montagne := rl.LoadTexture("assets/Tilesets/fond_montagne.png")
+	sol := rl.LoadTexture("assets/Tilesets/sol.png")
 	title := rl.LoadTexture("assets/Tilesets/knight_fight_title.png")
 	bouton_x := 1200
 	bouton_y := 400
@@ -56,7 +64,7 @@ func (g *GameEngine) RunningGameEngine() {
 
 	for !rl.WindowShouldClose() {
 		switch menu {
-		case 0 :
+		case 0:
 			frame_count++
 			rl.BeginDrawing()
 			rl.ClearBackground(rl.White)
@@ -75,13 +83,12 @@ func (g *GameEngine) RunningGameEngine() {
 				sr.X += 800
 				frame_count = 0
 			}
-			
-			
+
 			rl.DrawTexturePro(
 				title,
 				rl.NewRectangle(0, 0, 800, 500),
 				rl.NewRectangle(470, -140, 1000, 650),
-				rl.NewVector2(0,0),
+				rl.NewVector2(0, 0),
 				0,
 				rl.White,
 			)
@@ -119,15 +126,32 @@ func (g *GameEngine) RunningGameEngine() {
 		case 1:
 			rl.BeginDrawing()
 			rl.ClearBackground(rl.White)
-
-			rl.DrawText("Champi", 100, 100, 30, rl.Black)
+			rl.DrawTexturePro(
+				montagne,
+				sourceMontagne,
+				destMontagne,
+				vecteur,
+				0,
+				rl.White,
+			)
+			rl.DrawTexturePro(
+				sol,
+				sourceSol,
+				destSol,
+				vecteur,
+				0,
+				rl.White,
+			)
+			if rl.IsKeyPressed(rl.KeyEscape) {
+				rl.CloseWindow()
+			}
 
 			rl.EndDrawing()
 
 		case 2:
 			rl.BeginDrawing()
 			rl.ClearBackground(rl.White)
-			
+
 			rl.DrawTexturePro(
 				fond,
 				sr,
@@ -136,35 +160,42 @@ func (g *GameEngine) RunningGameEngine() {
 				0,
 				rl.RayWhite,
 			)
-			
+
 			rl.DrawRectangle(50, 50, 1830, 970, color_black)
 			rl.DrawRectangle(60, 60, 1810, 950, color_gray)
 
-
-			rl.DrawText("Settings", 70, 70, 30, rl.Black)
-
-		
-			rl.EndDrawing()
-		
+			rl.DrawTexture(quitButton, int32(bouton_x)+100, int32(bouton_y)+330, rl.RayWhite)
+			x_mouse := rl.GetMouseX()
+			y_mouse := rl.GetMouseY()
+			if x_mouse > int32(bouton_x)+385 && x_mouse < int32(bouton_x)+630 && y_mouse > int32(bouton_y)+450 && y_mouse < int32(bouton_y)+570 {
+				rl.DrawTexture(quitButtonOver, int32(bouton_x)+100, int32(bouton_y)+330, rl.RayWhite)
+				if rl.IsMouseButtonPressed(0) {
+					menu = 0
+				}
 			}
-		
-			
-		
+
+			rl.DrawText("Settings", 100, 100, 40, rl.Black)
+
+			rl.EndDrawing()
+
+		}
+
 	}
 
 	rl.CloseWindow()
 
 }
 
+//func menu_principal() {
 
+//}
 
 //--------------------------------------------
-
 
 type ClassPerso int
 
 const (
-	Archer ClassPerso = iota
+	Archer  ClassPerso = iota
 	Warrior ClassPerso = iota
 )
 
@@ -177,7 +208,6 @@ type Personnage struct {
 	inventory          map[string]int
 }
 
-
 func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoint int, CurrentHealthPoint int, Inventory map[string]int) {
 	p.name = Name
 	p.class = Class
@@ -188,24 +218,23 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 }
 
 type SpriteStruct struct {
-	Bouton_start rl.Texture2D
-	Bouton_quit rl.Texture2D
+	Bouton_start   rl.Texture2D
+	Bouton_quit    rl.Texture2D
 	Bouton_setting rl.Texture2D
-	Grass rl.Texture2D
+	Grass          rl.Texture2D
 }
 
-
 type SourceRectangle struct {
-	X float32
-	Y float32
-	Width float32
+	X      float32
+	Y      float32
+	Width  float32
 	Height float32
 }
 
 type DestRectangle struct {
-	X float32
-	Y float32
-	Width float32
+	X      float32
+	Y      float32
+	Width  float32
 	Height float32
 }
 
