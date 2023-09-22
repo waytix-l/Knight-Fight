@@ -63,6 +63,7 @@ func (g *GameEngine) RunningGameEngine() {
 	color_black := rl.ColorAlpha(rl.Black, 0.5)
 	color_gray := rl.ColorAlpha(rl.Gray, 0.5)
 	frame_count := 0
+	frame_count_sword := 0
 
 	player := rl.LoadTexture("assets/Tilesets/bouton_quit_gris2.png")
 	playerSrc := rl.NewRectangle(0, 0, 800, 300)
@@ -135,7 +136,7 @@ func (g *GameEngine) RunningGameEngine() {
 			rl.EndDrawing()
 
 		case 1:
-			frame_count++
+			frame_count_sword++
 			if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 				playerDest.Y -= playerSpeed
 				time.Sleep(time.Millisecond * 20)
@@ -185,12 +186,12 @@ func (g *GameEngine) RunningGameEngine() {
 				rl.White,
 			)
 
-			if swordSrc.X == 2880 && frame_count == 4 {
+			if swordSrc.X == 2880 && frame_count_sword == 3 {
 				swordSrc.X = 0
-				frame_count = 0
-			} else if frame_count == 4 {
+				frame_count_sword = 0
+			} else if frame_count_sword == 3 {
 				swordSrc.X += 240
-				frame_count = 0
+				frame_count_sword = 0
 			}
 
 			if rl.IsKeyPressed(rl.KeyEscape) {
