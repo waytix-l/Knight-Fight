@@ -64,6 +64,7 @@ func (g *GameEngine) RunningGameEngine() {
 	color_gray := rl.ColorAlpha(rl.Gray, 0.5)
 	frame_count := 0
 	frame_count_sword := 0
+	frame_count_eclair := 0
 
 	player := rl.LoadTexture("assets/Tilesets/bouton_quit_gris2.png")
 	playerSrc := rl.NewRectangle(0, 0, 800, 300)
@@ -73,6 +74,10 @@ func (g *GameEngine) RunningGameEngine() {
 	test_sword := rl.LoadTexture("assets/Tilesets/spritesheet_animatedsword.png")
 	swordSrc := rl.NewRectangle(0, 0, 240, 196)
 	swordDest := rl.NewRectangle(800, 400, 240, 196)
+
+	test_eclair := rl.LoadTexture("assets/Tilesets/spritesheet_eclair_test.png")
+	eclairSrc := rl.NewRectangle(0, 0, 800, 600)
+	eclairDest := rl.NewRectangle(600, 400, 240, 196)
 
 	for !rl.WindowShouldClose() {
 		switch menu {
@@ -137,6 +142,7 @@ func (g *GameEngine) RunningGameEngine() {
 
 		case 1:
 			frame_count_sword++
+			frame_count_eclair++
 			if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 				playerDest.Y -= playerSpeed
 				time.Sleep(time.Millisecond * 20)
@@ -183,7 +189,7 @@ func (g *GameEngine) RunningGameEngine() {
 				swordDest,
 				vecteur,
 				0,
-				rl.White,
+				rl.RayWhite,
 			)
 
 			if swordSrc.X == 2880 && frame_count_sword == 3 {
@@ -197,6 +203,23 @@ func (g *GameEngine) RunningGameEngine() {
 			if rl.IsKeyPressed(rl.KeyEscape) {
 				rl.CloseWindow()
 			}
+
+			rl.DrawTexturePro(
+				test_eclair,
+				eclairSrc,
+				eclairDest,
+				vecteur,
+				0,
+				rl.White,
+			)
+
+			//if eclairSrc.X == 23200 && frame_count_eclair == 100 {
+			//	eclairSrc.X = 0
+			//	frame_count_eclair = 0
+			//} else if frame_count_eclair == 100 {
+			//	eclairSrc.X += 800
+			//	frame_count_eclair = 0
+			//}
 
 			rl.EndDrawing()
 
