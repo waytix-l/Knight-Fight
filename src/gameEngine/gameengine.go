@@ -75,10 +75,6 @@ func (g *GameEngine) RunningGameEngine() {
 	swordSrc := rl.NewRectangle(0, 0, 240, 196)
 	swordDest := rl.NewRectangle(800, 400, 240, 196)
 
-	test_eclair := rl.LoadTexture("assets/Tilesets/spritesheet_eclair_test.png")
-	eclairSrc := rl.NewRectangle(0, 0, 800, 600)
-	eclairDest := rl.NewRectangle(600, 400, 240, 196)
-
 	for !rl.WindowShouldClose() {
 		switch menu {
 		case 0:
@@ -204,22 +200,6 @@ func (g *GameEngine) RunningGameEngine() {
 				rl.CloseWindow()
 			}
 
-			rl.DrawTexturePro(
-				test_eclair,
-				eclairSrc,
-				eclairDest,
-				vecteur,
-				0,
-				rl.White,
-			)
-
-			//if eclairSrc.X == 23200 && frame_count_eclair == 100 {
-			//	eclairSrc.X = 0
-			//	frame_count_eclair = 0
-			//} else if frame_count_eclair == 100 {
-			//	eclairSrc.X += 800
-			//	frame_count_eclair = 0
-			//}
 
 			rl.EndDrawing()
 
