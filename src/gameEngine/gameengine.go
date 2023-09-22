@@ -55,7 +55,7 @@ func (g *GameEngine) RunningGameEngine() {
 	settingsButtonOver := rl.LoadTexture("assets/Tilesets/bouton_settings_gris2.png")
 	fond := rl.LoadTexture("assets/Tilesets/Fond_anime.png")
 	montagne := rl.LoadTexture("assets/Tilesets/fond_montagne.png")
-	sol := rl.LoadTexture("assets/Tilesets/mapv0.1.png")
+	sol := rl.LoadTexture("assets/Tilesets/mapv0.2.png")
 	title := rl.LoadTexture("assets/Tilesets/knight_fight_title.png")
 	bouton_x := 1200
 	bouton_y := 400
