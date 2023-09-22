@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
+
+	"time"
 )
 
 type GameEngine struct {
@@ -36,11 +38,11 @@ func (g *GameEngine) RunningGameEngine() {
 	dr = rl.NewRectangle(0, 0, 1920, 1080)
 	vecteur := rl.NewVector2(0, 0)
 
-	sourceMontagne := rl.NewRectangle(0, 0, 1600, 900)
+	sourceMontagne := rl.NewRectangle(0, 0, 1600, 800)
 	destMontagne := rl.NewRectangle(0, 0, 1920, 1080)
 
-	sourceSol := rl.NewRectangle(0, 0, 3200, 1600)
-	destSol := rl.NewRectangle(0, 0, 1920, 1030)
+	sourceSol := rl.NewRectangle(0, 700, 1500, 1080)
+	destSol := rl.NewRectangle(0, 400, 3500, 2000)
 
 	x := int32(rl.GetMonitorWidth(rl.GetCurrentMonitor()))
 	y := int32(rl.GetMonitorHeight(rl.GetCurrentMonitor()))
@@ -53,7 +55,7 @@ func (g *GameEngine) RunningGameEngine() {
 	settingsButtonOver := rl.LoadTexture("assets/Tilesets/bouton_settings_gris2.png")
 	fond := rl.LoadTexture("assets/Tilesets/Fond_anime.png")
 	montagne := rl.LoadTexture("assets/Tilesets/fond_montagne.png")
-	sol := rl.LoadTexture("assets/Tilesets/sol.png")
+	sol := rl.LoadTexture("assets/Tilesets/testmap2.png")
 	title := rl.LoadTexture("assets/Tilesets/knight_fight_title.png")
 	bouton_x := 1200
 	bouton_y := 400
@@ -61,6 +63,16 @@ func (g *GameEngine) RunningGameEngine() {
 	color_black := rl.ColorAlpha(rl.Black, 0.5)
 	color_gray := rl.ColorAlpha(rl.Gray, 0.5)
 	frame_count := 0
+
+	player := rl.LoadTexture("assets/Tilesets/bouton_quit_gris2.png")
+	playerSrc := rl.NewRectangle(0,0,800, 300)
+	playerDest := rl.NewRectangle(200, 864, 200, 130)
+	playerSpeed := float32(3)
+
+	test_sword := rl.LoadTexture("assets/Tilesets/spritesheet_animatedsword.png")
+	swordSrc := rl.NewRectangle(0, 0, 240, 196)
+	swordDest := rl.NewRectangle(800, 400, 240, 196)
+
 
 	for !rl.WindowShouldClose() {
 		switch menu {
@@ -124,6 +136,22 @@ func (g *GameEngine) RunningGameEngine() {
 			rl.EndDrawing()
 
 		case 1:
+
+			frame_count++
+			if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
+				playerDest.Y -= playerSpeed
+				time.Sleep(time.Millisecond * 20)
+				playerDest.Y += playerSpeed
+			}
+			if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
+				playerDest.X -= playerSpeed
+			}
+			if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
+				playerDest.X += playerSpeed
+			}
+
+
+
 			rl.BeginDrawing()
 			rl.ClearBackground(rl.White)
 			rl.DrawTexturePro(
@@ -142,6 +170,33 @@ func (g *GameEngine) RunningGameEngine() {
 				0,
 				rl.White,
 			)
+
+			rl.DrawTexturePro(
+				player,
+				playerSrc,
+				playerDest,
+				vecteur,
+				0,
+				rl.White,
+			)
+
+			rl.DrawTexturePro(
+				test_sword,
+				swordSrc,
+				swordDest,
+				vecteur,
+				0,
+				rl.White,
+			)
+
+			if swordSrc.X == 2880 && frame_count == 8 {
+				swordSrc.X = 0
+				frame_count = 0
+			} else if frame_count == 8 {
+				swordSrc.X += 240
+				frame_count = 0
+			}
+
 			if rl.IsKeyPressed(rl.KeyEscape) {
 				rl.CloseWindow()
 			}
