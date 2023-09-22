@@ -65,14 +65,13 @@ func (g *GameEngine) RunningGameEngine() {
 	frame_count := 0
 
 	player := rl.LoadTexture("assets/Tilesets/bouton_quit_gris2.png")
-	playerSrc := rl.NewRectangle(0,0,800, 300)
+	playerSrc := rl.NewRectangle(0, 0, 800, 300)
 	playerDest := rl.NewRectangle(200, 864, 200, 130)
 	playerSpeed := float32(3)
 
 	test_sword := rl.LoadTexture("assets/Tilesets/spritesheet_animatedsword.png")
 	swordSrc := rl.NewRectangle(0, 0, 240, 196)
 	swordDest := rl.NewRectangle(800, 400, 240, 196)
-
 
 	for !rl.WindowShouldClose() {
 		switch menu {
@@ -150,8 +149,6 @@ func (g *GameEngine) RunningGameEngine() {
 				playerDest.X += playerSpeed
 			}
 
-
-
 			rl.BeginDrawing()
 			rl.ClearBackground(rl.White)
 			rl.DrawTexturePro(
@@ -189,10 +186,10 @@ func (g *GameEngine) RunningGameEngine() {
 				rl.White,
 			)
 
-			if swordSrc.X == 2880 && frame_count == 8 {
+			if swordSrc.X == 2880 && frame_count == 4 {
 				swordSrc.X = 0
 				frame_count = 0
-			} else if frame_count == 8 {
+			} else if frame_count == 4 {
 				swordSrc.X += 240
 				frame_count = 0
 			}
