@@ -135,7 +135,6 @@ func (g *GameEngine) RunningGameEngine() {
 			rl.EndDrawing()
 
 		case 1:
-
 			frame_count++
 			if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 				playerDest.Y -= playerSpeed
