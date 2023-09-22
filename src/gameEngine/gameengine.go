@@ -175,6 +175,7 @@ func (g *GameEngine) RunningGameEngine() {
 			}
 
 			rl.DrawText("Settings", 100, 100, 40, rl.Black)
+			rl.DrawText("Settings", 150, 150, 40, rl.Black)
 
 			rl.EndDrawing()
 
