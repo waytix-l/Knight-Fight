@@ -333,7 +333,7 @@ func (e *Enemy) Init() {
 
 	e.Sprite = rl.LoadTexture("assets/Tilesets/enemy.png")
 	e.Sr_sprite = rl.NewRectangle(0, 0, 720, 720)
-	e.Dr_sprite = rl.NewRectangle(1400, 740, 256, 256)
+	e.Dr_sprite = rl.NewRectangle(1400, 700, 256, 256)
 	e.Vector_sprite = rl.NewVector2(0, 0)
 
 	e.Frame_count_sprite = 0
