@@ -227,7 +227,6 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		rl.White,
 	)
 
-
 	if rl.IsKeyPressed(rl.KeyW) || rl.IsKeyPressed(rl.KeyUp) {
 		perso.Dr_sprite.Y -= perso.Sprite_Speed * 20
 		time.Sleep(time.Millisecond * 2)
@@ -235,11 +234,11 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	}
 	if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
 		perso.Dr_sprite.X -= perso.Sprite_Speed
-		fmt.Println(perso.Dr_sprite.X)
+		perso.Running = true
 	}
 	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
 		perso.Dr_sprite.X += perso.Sprite_Speed
-		fmt.Println(perso.Dr_sprite.X)
+		perso.Running = true
 	}
 
 	rl.DrawTexturePro(
@@ -250,7 +249,6 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		0,
 		rl.RayWhite,
 	)
-
 
 	rl.EndDrawing()
 
@@ -280,6 +278,7 @@ type Personnage struct {
 	Dr_sprite     rl.Rectangle
 	Vector_sprite rl.Vector2
 	Sprite_Speed  float32
+	Running       bool
 }
 
 func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoint int, CurrentHealthPoint int, Inventory map[string]int) {
@@ -295,6 +294,7 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.Dr_sprite = rl.NewRectangle(200, 840, 128, 128)
 	p.Vector_sprite = rl.NewVector2(0, 0)
 	p.Sprite_Speed = 3
+	p.Running = false
 }
 
 type SpriteStruct struct {
