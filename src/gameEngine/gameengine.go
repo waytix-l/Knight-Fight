@@ -42,7 +42,7 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 	y := int32(rl.GetMonitorHeight(rl.GetCurrentMonitor()))
 	fmt.Print(x, y)
 	montagne := rl.LoadTexture("assets/Tilesets/fond_montagne.png")
-	sol := rl.LoadTexture("assets/Tilesets/mapv0.9.png")
+	sol := rl.LoadTexture("assets/Tilesets/mapv0.4.png")
 	frame_count_sword := 0
 	frame_count_eclair := 0
 
