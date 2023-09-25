@@ -4,8 +4,6 @@ import (
 	"fmt"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
-
-	"time"
 )
 
 type GameEngine struct {
@@ -47,6 +45,9 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 
 		case 1:
 			m.Afficher_Menu_Jeu(&perso, &enemy)
+		
+		case 2 :
+			m.Afficher_Donjon(&perso, &enemy)
 		}
 
 	}
@@ -99,6 +100,20 @@ type Menu struct {
 	Sr_sol     rl.Rectangle
 	Dr_sol     rl.Rectangle
 	Vector_sol rl.Vector2
+
+	//----- Menu Donjon -----//
+
+	Fond_Donjon rl.Texture2D
+	Sr_fond_donjon rl.Rectangle
+	Dr_fond_donjon rl.Rectangle
+	Vector_fond_donjon rl.Vector2
+
+	filtre_sombre rl.Texture2D
+
+	Sol_donjon rl.Texture2D
+	Sr_sol_donjon rl.Rectangle
+	Dr_sol_donjon rl.Rectangle
+	Vector_sol_donjon rl.Vector2
 }
 
 func (m *Menu) Init_Menu() {
@@ -135,10 +150,24 @@ func (m *Menu) Init_Menu() {
 	m.Dr_Montagne = rl.NewRectangle(0, 0, 1920, 1080)
 	m.Vector_montagne = rl.NewVector2(0, 0)
 
-	m.Sol = rl.LoadTexture("assets/Tilesets/mapv0.9.png")
+	m.Sol = rl.LoadTexture("assets/Tilesets/mapv2.png")
 	m.Sr_sol = rl.NewRectangle(0, 700, 1500, 1080)
 	m.Dr_sol = rl.NewRectangle(0, 400, 3500, 2000)
 	m.Vector_sol = rl.NewVector2(0, 0)
+
+	//----- Menu Donjon -----//
+
+	m.Fond_Donjon = rl.LoadTexture("assets/Tilesets/dungeon1bg(1).gif")
+	m.Sr_fond_donjon = rl.NewRectangle(0, 0, 1760, 1040)
+	m.Dr_fond_donjon = rl.NewRectangle(0, 0, 1850, 995)
+	m.Vector_fond_donjon = rl.NewVector2(0, 0)
+
+	m.filtre_sombre = rl.LoadTexture("assets/Tilesets/filtre_sombre.png")
+
+	m.Sol_donjon = rl.LoadTexture("assets/Tilesets/mapdonjon1.png")
+	m.Sr_sol_donjon = rl.NewRectangle(0, 0, 970, 400)
+	m.Dr_sol_donjon = rl.NewRectangle(0, 0, 1920, 1080)
+	m.Vector_sol_donjon = rl.NewVector2(0, 0)
 }
 
 func (m *Menu) Afficher_Menu_Principal() {
@@ -219,10 +248,8 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 		rl.White,
 	)
 
-	if rl.IsKeyPressed(rl.KeyW) || rl.IsKeyPressed(rl.KeyUp) {
-		perso.Dr_sprite.Y -= perso.Sprite_Speed * 20
-		time.Sleep(time.Millisecond * 2)
-		perso.Dr_sprite.Y += perso.Sprite_Speed * 20
+	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
+		perso.Dr_sprite.Y -= perso.Sprite_Speed
 	}
 	if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
 		perso.Dr_sprite.X -= perso.Sprite_Speed
@@ -241,6 +268,74 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 		0,
 		rl.RayWhite,
 	)
+
+	
+
+
+
+
+	rl.EndDrawing()
+
+	if rl.IsKeyPressed(rl.KeyEscape) {
+		rl.CloseWindow()
+	}
+
+	if rl.IsKeyPressed(rl.KeyC) {
+		m.menu = 2
+		perso.Dr_sprite.X = 200
+		perso.Dr_sprite.Y = 860
+	}
+
+}
+
+func (m *Menu)Afficher_Donjon(perso *Personnage, enemy *Enemy) {
+
+
+	rl.BeginDrawing()
+	rl.ClearBackground(rl.White)
+
+	rl.DrawTexturePro(
+		m.Fond_Donjon,
+		m.Sr_fond_donjon,
+		m.Dr_fond_donjon,
+		m.Vector_fond_donjon,
+		0,
+		rl.RayWhite,
+	)
+
+	rl.DrawTexture(m.filtre_sombre, 0, 0, rl.Black)
+
+	rl.DrawTexturePro(
+		m.Sol_donjon,
+		m.Sr_sol_donjon,
+		m.Dr_sol_donjon,
+		m.Vector_sol_donjon,
+		0,
+		rl.RayWhite,
+	)
+
+
+	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
+		perso.Dr_sprite.Y -= perso.Sprite_Speed
+	}
+	if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
+		perso.Dr_sprite.X -= perso.Sprite_Speed
+		perso.Running = true
+	}
+	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
+		perso.Dr_sprite.X += perso.Sprite_Speed
+		perso.Running = true
+	}
+
+	rl.DrawTexturePro(
+		perso.sprite,
+		perso.Sr_sprite,
+		perso.Dr_sprite,
+		perso.Vector_sprite,
+		0,
+		rl.RayWhite,
+	)
+
 
 	enemy.Frame_count_sprite++
 
@@ -261,16 +356,14 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
-
-
-
 	rl.EndDrawing()
-
+	
 	if rl.IsKeyPressed(rl.KeyEscape) {
 		rl.CloseWindow()
 	}
 
 }
+
 
 type ClassPerso int
 
