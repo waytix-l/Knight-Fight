@@ -29,14 +29,8 @@ func (g *GameEngine) InitGameEngine(x int32, y int32, title string) {
 	rl.ToggleFullscreen()
 }
 
-func (g *GameEngine) RunningGameEngine() {
+func (g *GameEngine) RunningGameEngine(m *Menu) {
 	rl.SetExitKey(0)
-	var sr rl.Rectangle
-	var dr rl.Rectangle
-
-	sr = rl.NewRectangle(0, 0, 800, 500)
-	dr = rl.NewRectangle(0, 0, 1920, 1080)
-	vecteur := rl.NewVector2(0, 0)
 
 	sourceMontagne := rl.NewRectangle(0, 0, 1600, 800)
 	destMontagne := rl.NewRectangle(0, 0, 1920, 1080)
@@ -47,22 +41,8 @@ func (g *GameEngine) RunningGameEngine() {
 	x := int32(rl.GetMonitorWidth(rl.GetCurrentMonitor()))
 	y := int32(rl.GetMonitorHeight(rl.GetCurrentMonitor()))
 	fmt.Print(x, y)
-	startButton := rl.LoadTexture("assets/Tilesets/bouton_start3.png")
-	quitButton := rl.LoadTexture("assets/Tilesets/bouton_quit3.png")
-	settingsButton := rl.LoadTexture("assets/Tilesets/bouton_settings3.png")
-	startButtonOver := rl.LoadTexture("assets/Tilesets/bouton_start_gris2.png")
-	quitButtonOver := rl.LoadTexture("assets/Tilesets/bouton_quit_gris2.png")
-	settingsButtonOver := rl.LoadTexture("assets/Tilesets/bouton_settings_gris2.png")
-	fond := rl.LoadTexture("assets/Tilesets/Fond_anime.png")
 	montagne := rl.LoadTexture("assets/Tilesets/fond_montagne.png")
 	sol := rl.LoadTexture("assets/Tilesets/mapv0.4.png")
-	title := rl.LoadTexture("assets/Tilesets/knight_fight_title.png")
-	bouton_x := 1200
-	bouton_y := 400
-	menu := 0
-	color_black := rl.ColorAlpha(rl.Black, 0.5)
-	color_gray := rl.ColorAlpha(rl.Gray, 0.5)
-	frame_count := 0
 	frame_count_sword := 0
 	frame_count_eclair := 0
 
@@ -79,66 +59,12 @@ func (g *GameEngine) RunningGameEngine() {
 	//eclairSrc := rl.NewRectangle(0, 0, 450, 300)
 	//eclairDest := rl.NewRectangle(100, 100, 400, 240)
 
+	m.Init_Menu()
+
 	for !rl.WindowShouldClose() {
-		switch menu {
+		switch m.menu {
 		case 0:
-			frame_count++
-			rl.BeginDrawing()
-			rl.ClearBackground(rl.White)
-			rl.DrawTexturePro(
-				fond,
-				sr,
-				dr,
-				vecteur,
-				0,
-				rl.RayWhite,
-			)
-			if sr.X == 5600 && frame_count == 8 {
-				sr.X = 0
-				frame_count = 0
-			} else if frame_count == 8 {
-				sr.X += 800
-				frame_count = 0
-			}
-
-			rl.DrawTexturePro(
-				title,
-				rl.NewRectangle(0, 0, 800, 500),
-				rl.NewRectangle(470, -140, 1000, 650),
-				rl.NewVector2(0, 0),
-				0,
-				rl.White,
-			)
-			rl.DrawTexture(startButton, int32(bouton_x), int32(bouton_y), rl.RayWhite)
-			rl.DrawTexture(settingsButton, int32(bouton_x), int32(bouton_y)+125, rl.RayWhite)
-			rl.DrawTexture(quitButton, int32(bouton_x), int32(bouton_y)+255, rl.RayWhite)
-
-			x_mouse := rl.GetMouseX()
-			y_mouse := rl.GetMouseY()
-			if x_mouse > int32(bouton_x)+285 && x_mouse < int32(bouton_x)+525 && y_mouse > int32(bouton_y)+125 && y_mouse < int32(bouton_y)+235 {
-				rl.DrawTexture(startButtonOver, int32(bouton_x), int32(bouton_y), rl.RayWhite)
-				if rl.IsMouseButtonPressed(0) {
-					fmt.Println("Start")
-					menu = 1
-				}
-			}
-
-			if x_mouse > int32(bouton_x)+285 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+125+130 && y_mouse < int32(bouton_y)+250+105 {
-				rl.DrawTexture(settingsButtonOver, int32(bouton_x), int32(bouton_y)+125, rl.RayWhite)
-				if rl.IsMouseButtonPressed(0) {
-					fmt.Println("Settings")
-					menu = 2
-				}
-			}
-
-			if x_mouse > int32(bouton_x)+270 && x_mouse < int32(bouton_x)+550 && y_mouse > int32(bouton_y)+125+130+135 && y_mouse < int32(bouton_y)+250+105+135 {
-				rl.DrawTexture(quitButtonOver, int32(bouton_x), int32(bouton_y)+255, rl.RayWhite)
-				if rl.IsMouseButtonPressed(0) {
-					rl.CloseWindow()
-				}
-			}
-
-			rl.EndDrawing()
+			m.Afficher_Menu_Principal()
 
 		case 1:
 			frame_count_sword++
@@ -150,7 +76,7 @@ func (g *GameEngine) RunningGameEngine() {
 				montagne,
 				sourceMontagne,
 				destMontagne,
-				vecteur,
+				rl.NewVector2(0,0),
 				0,
 				rl.White,
 			)
@@ -158,7 +84,7 @@ func (g *GameEngine) RunningGameEngine() {
 				sol,
 				sourceSol,
 				destSol,
-				vecteur,
+				rl.NewVector2(0,0),
 				0,
 				rl.White,
 			)
@@ -167,7 +93,7 @@ func (g *GameEngine) RunningGameEngine() {
 				player,
 				playerSrc,
 				playerDest,
-				vecteur,
+				rl.NewVector2(0,0),
 				0,
 				rl.White,
 			)
@@ -207,7 +133,7 @@ func (g *GameEngine) RunningGameEngine() {
 				test_sword,
 				swordSrc,
 				swordDest,
-				vecteur,
+				rl.NewVector2(0,0),
 				0,
 				rl.RayWhite,
 			)
@@ -226,36 +152,6 @@ func (g *GameEngine) RunningGameEngine() {
 
 			rl.EndDrawing()
 
-		case 2:
-			rl.BeginDrawing()
-			rl.ClearBackground(rl.White)
-
-			rl.DrawTexturePro(
-				fond,
-				sr,
-				dr,
-				vecteur,
-				0,
-				rl.RayWhite,
-			)
-
-			rl.DrawRectangle(50, 50, 1830, 970, color_black)
-			rl.DrawRectangle(60, 60, 1810, 950, color_gray)
-
-			rl.DrawTexture(quitButton, int32(bouton_x)+100, int32(bouton_y)+330, rl.RayWhite)
-			x_mouse := rl.GetMouseX()
-			y_mouse := rl.GetMouseY()
-			if x_mouse > int32(bouton_x)+385 && x_mouse < int32(bouton_x)+630 && y_mouse > int32(bouton_y)+450 && y_mouse < int32(bouton_y)+570 {
-				rl.DrawTexture(quitButtonOver, int32(bouton_x)+100, int32(bouton_y)+330, rl.RayWhite)
-				if rl.IsMouseButtonPressed(0) {
-					menu = 0
-				}
-			}
-
-			rl.DrawText("Settings", 100, 100, 40, rl.Black)
-			rl.DrawText("Settings", 150, 150, 40, rl.Black)
-
-			rl.EndDrawing()
 
 		}
 
@@ -269,7 +165,13 @@ func (g *GameEngine) RunningGameEngine() {
 
 //--------------------------------------------
 
-type MenuPrincipal struct {
+
+type Menu struct {
+	
+	menu int
+
+	//----- Menu Principal -----//
+
 	FrameCount int
 	X_mouse int32
 	Y_mouse int32
@@ -295,12 +197,114 @@ type MenuPrincipal struct {
 
 	QuitButton rl.Texture2D
 	QuitButtonOver rl.Texture2D
+
+	//----- Menu Jeu -----///
+
 }
 
-func (m *MenuPrincipal) Afficher_Menu() {
+func (m *Menu) Init_Menu() {
+
+	m.menu = 0
+
+	//----- Menu Principal -----//
+
+	m.Fond = rl.LoadTexture("assets/Tilesets/Fond_anime.png")
+	m.Sr_fond = rl.NewRectangle(0, 0, 800, 500)
+	m.Dr_fond = rl.NewRectangle(0, 0, 1920, 1080)
+	m.Vector_fond = rl.NewVector2(0, 0)
+
+	m.Title = rl.LoadTexture("assets/Tilesets/knight_fight_title.png")
+	m.Sr_title = rl.NewRectangle(0, 0, 800, 500)
+	m.Dr_title = rl.NewRectangle(470, -140, 1000, 650)
+	m.Vector_title = rl.NewVector2(0, 0)
+	
+	m.StartButton = rl.LoadTexture("assets/Tilesets/bouton_start3.png")
+	m.StartButtonOver = rl.LoadTexture("assets/Tilesets/bouton_start_gris2.png")
+
+	m.SettingsButton = rl.LoadTexture("assets/Tilesets/bouton_settings3.png")
+	m.SettingsButtonOver = rl.LoadTexture("assets/Tilesets/bouton_settings_gris2.png")
+
+	m.QuitButton = rl.LoadTexture("assets/Tilesets/bouton_quit3.png")
+	m.QuitButtonOver = rl.LoadTexture("assets/Tilesets/bouton_quit_gris2.png")
+
+	m.Bouton_X = 1200
+	m.Bouton_Y = 400
+
+	m.FrameCount = 0
+
+	//----- Menu Jeu -----//
+
+}
+
+
+func (m *Menu) Afficher_Menu_Principal() {
+	
+	m.FrameCount++
+
+	rl.BeginDrawing()
+
+	rl.ClearBackground(rl.White)
+			rl.DrawTexturePro(
+				m.Fond,
+				m.Sr_fond,
+				m.Dr_fond,
+				m.Vector_fond,
+				0,
+				rl.RayWhite,
+			)
+			if m.Sr_fond.X == 5600 && m.FrameCount == 8 {
+				m.Sr_fond.X = 0
+				m.FrameCount = 0
+			} else if m.FrameCount == 8 {
+				m.Sr_fond.X += 800
+				m.FrameCount = 0
+			}
+
+			rl.DrawTexturePro(
+				m.Title,
+				m.Sr_title,
+				m.Dr_title,
+				m.Vector_title,
+				0,
+				rl.White,
+			)
+			rl.DrawTexture(m.StartButton, m.Bouton_X, m.Bouton_Y, rl.RayWhite)
+			rl.DrawTexture(m.SettingsButton, m.Bouton_X, m.Bouton_Y + 125, rl.RayWhite)
+			rl.DrawTexture(m.QuitButton, m.Bouton_X, m.Bouton_Y+255, rl.RayWhite)
+
+			x_mouse := rl.GetMouseX()
+			y_mouse := rl.GetMouseY()
+			if x_mouse > m.Bouton_X + 285 && x_mouse < m.Bouton_X + 525 && y_mouse > m.Bouton_Y + 125 && y_mouse < m.Bouton_Y + 235 {
+				rl.DrawTexture(m.StartButtonOver, m.Bouton_X, m.Bouton_Y, rl.RayWhite)
+				if rl.IsMouseButtonPressed(0) {
+					fmt.Println("Start")
+					m.menu = 1
+				}
+			}
+
+			if x_mouse > m.Bouton_X + 285 && x_mouse < m.Bouton_X + 550 && y_mouse > m.Bouton_Y + 125 + 130 && y_mouse < m.Bouton_Y + 250 + 105 {
+				rl.DrawTexture(m.SettingsButtonOver, m.Bouton_X, m.Bouton_Y + 125, rl.RayWhite)
+				if rl.IsMouseButtonPressed(0) {
+					fmt.Println("Settings")
+					m.menu = 2
+				}
+			}
+
+			if x_mouse > m.Bouton_X + 270 && x_mouse < m.Bouton_X + 550 && y_mouse > m.Bouton_Y + 125 + 130 + 135 && y_mouse < m.Bouton_Y + 250 + 105 + 135 {
+				rl.DrawTexture(m.QuitButtonOver, m.Bouton_X, m.Bouton_Y + 255, rl.RayWhite)
+				if rl.IsMouseButtonPressed(0) {
+					rl.CloseWindow()
+				}
+			}
+
+
+
+	rl.EndDrawing()
+}
+
+func (m *Menu) Afficher_Menu_Jeu() {
 	
 }
-
 
 type ClassPerso int
 
