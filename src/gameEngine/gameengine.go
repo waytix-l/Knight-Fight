@@ -32,34 +32,11 @@ func (g *GameEngine) InitGameEngine(x int32, y int32, title string) {
 func (g *GameEngine) RunningGameEngine(m *Menu) {
 	rl.SetExitKey(0)
 
-	sourceMontagne := rl.NewRectangle(0, 0, 1600, 800)
-	destMontagne := rl.NewRectangle(0, 0, 1920, 1080)
-
-	sourceSol := rl.NewRectangle(0, 700, 1500, 1080)
-	destSol := rl.NewRectangle(0, 400, 3500, 2000)
-
-	x := int32(rl.GetMonitorWidth(rl.GetCurrentMonitor()))
-	y := int32(rl.GetMonitorHeight(rl.GetCurrentMonitor()))
-	fmt.Print(x, y)
-	montagne := rl.LoadTexture("assets/Tilesets/fond_montagne.png")
-	sol := rl.LoadTexture("assets/Tilesets/mapv0.4.png")
-	frame_count_sword := 0
-	frame_count_eclair := 0
-
-	player := rl.LoadTexture("assets/Tilesets/Run.png")
-	playerSrc := rl.NewRectangle(0, 0, 128, 128)
-	playerDest := rl.NewRectangle(200, 840, 128, 128)
-	playerSpeed := float32(3)
-
-	test_sword := rl.LoadTexture("assets/Tilesets/spritesheet_animatedsword.png")
-	swordSrc := rl.NewRectangle(0, 0, 240, 196)
-	swordDest := rl.NewRectangle(800, 400, 240, 196)
-
-	//eclair_bleu := rl.LoadTexture("assets/Tilesets/eclair_bleu.png")
-	//eclairSrc := rl.NewRectangle(0, 0, 450, 300)
-	//eclairDest := rl.NewRectangle(100, 100, 400, 240)
-
 	m.Init_Menu()
+
+	var perso Personnage
+	inventaire := make(map[string]int)
+	perso.Init("Lucas", Archer, 1, 100, 50, inventaire)
 
 	for !rl.WindowShouldClose() {
 		switch m.menu {
@@ -67,88 +44,7 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 			m.Afficher_Menu_Principal()
 
 		case 1:
-			frame_count_sword++
-			frame_count_eclair++
-
-			rl.BeginDrawing()
-			rl.ClearBackground(rl.White)
-			rl.DrawTexturePro(
-				montagne,
-				sourceMontagne,
-				destMontagne,
-				rl.NewVector2(0, 0),
-				0,
-				rl.White,
-			)
-			rl.DrawTexturePro(
-				sol,
-				sourceSol,
-				destSol,
-				rl.NewVector2(0, 0),
-				0,
-				rl.White,
-			)
-
-			rl.DrawTexturePro(
-				player,
-				playerSrc,
-				playerDest,
-				rl.NewVector2(0, 0),
-				0,
-				rl.White,
-			)
-
-			if rl.IsKeyPressed(rl.KeyW) || rl.IsKeyPressed(rl.KeyUp) {
-				playerDest.Y -= playerSpeed * 20
-				time.Sleep(time.Millisecond * 2)
-				playerDest.Y += playerSpeed * 20
-			}
-			if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
-				playerDest.X -= playerSpeed
-			}
-			if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
-				playerDest.X += playerSpeed
-			}
-
-			if frame_count_eclair == 3 && playerSrc.X == 896 {
-				playerSrc.X = 0
-				frame_count_eclair = 0
-			} else if frame_count_eclair == 3 {
-				playerSrc.X += 128
-				frame_count_eclair = 0
-			}
-
-			if frame_count_eclair == 3 && playerSrc.X == 896 {
-				playerSrc.X = 0
-				frame_count_eclair = 0
-			} else if frame_count_eclair == 3 {
-				playerSrc.X += 128
-				frame_count_eclair = 0
-			}
-
-			rl.DrawTexturePro(
-				test_sword,
-				swordSrc,
-				swordDest,
-				rl.NewVector2(0, 0),
-				0,
-				rl.RayWhite,
-			)
-
-			if swordSrc.X == 2880 && frame_count_sword == 3 {
-				swordSrc.X = 0
-				frame_count_sword = 0
-			} else if frame_count_sword == 3 {
-				swordSrc.X += 240
-				frame_count_sword = 0
-			}
-
-			if rl.IsKeyPressed(rl.KeyEscape) {
-				rl.CloseWindow()
-			}
-
-			rl.EndDrawing()
-
+			m.Afficher_Menu_Jeu(&perso)
 		}
 
 	}
@@ -235,6 +131,15 @@ func (m *Menu) Init_Menu() {
 
 	//----- Menu Jeu -----//
 
+	m.Montagne_Background = rl.LoadTexture("assets/Tilesets/fond_montagne.png")
+	m.Sr_Montagne = rl.NewRectangle(0, 0, 1600, 800)
+	m.Dr_Montagne = rl.NewRectangle(0, 0, 1920, 1080)
+	m.Vector_montagne = rl.NewVector2(0, 0)
+
+	m.Sol = rl.LoadTexture("assets/Tilesets/mapv0.4.png")
+	m.Sr_sol = rl.NewRectangle(0, 700, 1500, 1080)
+	m.Dr_sol = rl.NewRectangle(0, 400, 3500, 2000)
+	m.Vector_sol = rl.NewVector2(0, 0)
 }
 
 func (m *Menu) Afficher_Menu_Principal() {
@@ -300,7 +205,58 @@ func (m *Menu) Afficher_Menu_Principal() {
 	rl.EndDrawing()
 }
 
-func (m *Menu) Afficher_Menu_Jeu() {
+func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
+	rl.BeginDrawing()
+	rl.ClearBackground(rl.White)
+
+	rl.DrawTexturePro(
+		m.Montagne_Background,
+		m.Sr_Montagne,
+		m.Dr_Montagne,
+		m.Vector_montagne,
+		0,
+		rl.White,
+	)
+
+	rl.DrawTexturePro(
+		m.Sol,
+		m.Sr_sol,
+		m.Dr_sol,
+		m.Vector_sol,
+		0,
+		rl.White,
+	)
+
+
+	if rl.IsKeyPressed(rl.KeyW) || rl.IsKeyPressed(rl.KeyUp) {
+		perso.Dr_sprite.Y -= perso.Sprite_Speed * 20
+		time.Sleep(time.Millisecond * 2)
+		perso.Dr_sprite.Y += perso.Sprite_Speed * 20
+	}
+	if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
+		perso.Dr_sprite.X -= perso.Sprite_Speed
+		fmt.Println(perso.Dr_sprite.X)
+	}
+	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
+		perso.Dr_sprite.X += perso.Sprite_Speed
+		fmt.Println(perso.Dr_sprite.X)
+	}
+
+	rl.DrawTexturePro(
+		perso.sprite,
+		perso.Sr_sprite,
+		perso.Dr_sprite,
+		perso.Vector_sprite,
+		0,
+		rl.RayWhite,
+	)
+
+
+	rl.EndDrawing()
+
+	if rl.IsKeyPressed(rl.KeyEscape) {
+		rl.CloseWindow()
+	}
 
 }
 
@@ -318,6 +274,12 @@ type Personnage struct {
 	maxHealthPoint     int
 	currentHealthPoint int
 	inventory          map[string]int
+
+	sprite        rl.Texture2D
+	Sr_sprite     rl.Rectangle
+	Dr_sprite     rl.Rectangle
+	Vector_sprite rl.Vector2
+	Sprite_Speed  float32
 }
 
 func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoint int, CurrentHealthPoint int, Inventory map[string]int) {
@@ -327,6 +289,12 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.maxHealthPoint = MaxHealthPoint
 	p.currentHealthPoint = CurrentHealthPoint
 	p.inventory = Inventory
+
+	p.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
+	p.Sr_sprite = rl.NewRectangle(0, 0, 128, 128)
+	p.Dr_sprite = rl.NewRectangle(200, 840, 128, 128)
+	p.Vector_sprite = rl.NewVector2(0, 0)
+	p.Sprite_Speed = 3
 }
 
 type SpriteStruct struct {
