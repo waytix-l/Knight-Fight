@@ -233,7 +233,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		time.Sleep(time.Millisecond * 2)
 		perso.Dr_sprite.Y += perso.Sprite_Speed * 20
 	}
-	if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
+	if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
 		perso.Dr_sprite.X -= perso.Sprite_Speed
 		fmt.Println(perso.Dr_sprite.X)
 	}
