@@ -37,6 +37,8 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 	var perso Personnage
 	inventaire := make(map[string]int)
 	perso.Init("Lucas", Archer, 1, 100, 50, inventaire)
+	var enemy Enemy
+	enemy.Init()
 
 	for !rl.WindowShouldClose() {
 		switch m.menu {
@@ -44,7 +46,7 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 			m.Afficher_Menu_Principal()
 
 		case 1:
-			m.Afficher_Menu_Jeu(&perso)
+			m.Afficher_Menu_Jeu(&perso, &enemy)
 		}
 
 	}
@@ -118,14 +120,11 @@ func (m *Menu) Init_Menu() {
 	m.StartButton = rl.LoadTexture("assets/Tilesets/bouton_start3.png")
 	m.StartButtonOver = rl.LoadTexture("assets/Tilesets/bouton_start_gris2.png")
 
-	m.SettingsButton = rl.LoadTexture("assets/Tilesets/bouton_settings3.png")
-	m.SettingsButtonOver = rl.LoadTexture("assets/Tilesets/bouton_settings_gris2.png")
-
 	m.QuitButton = rl.LoadTexture("assets/Tilesets/bouton_quit3.png")
 	m.QuitButtonOver = rl.LoadTexture("assets/Tilesets/bouton_quit_gris2.png")
 
 	m.Bouton_X = 1200
-	m.Bouton_Y = 400
+	m.Bouton_Y = 600
 
 	m.FrameCount = 0
 
@@ -174,8 +173,8 @@ func (m *Menu) Afficher_Menu_Principal() {
 		rl.White,
 	)
 	rl.DrawTexture(m.StartButton, m.Bouton_X, m.Bouton_Y, rl.RayWhite)
-	rl.DrawTexture(m.SettingsButton, m.Bouton_X, m.Bouton_Y+125, rl.RayWhite)
-	rl.DrawTexture(m.QuitButton, m.Bouton_X, m.Bouton_Y+255, rl.RayWhite)
+
+	rl.DrawTexture(m.QuitButton, m.Bouton_X, m.Bouton_Y+125, rl.RayWhite)
 
 	x_mouse := rl.GetMouseX()
 	y_mouse := rl.GetMouseY()
@@ -187,16 +186,9 @@ func (m *Menu) Afficher_Menu_Principal() {
 		}
 	}
 
-	if x_mouse > m.Bouton_X+285 && x_mouse < m.Bouton_X+550 && y_mouse > m.Bouton_Y+125+130 && y_mouse < m.Bouton_Y+250+105 {
-		rl.DrawTexture(m.SettingsButtonOver, m.Bouton_X, m.Bouton_Y+125, rl.RayWhite)
-		if rl.IsMouseButtonPressed(0) {
-			fmt.Println("Settings")
-			m.menu = 2
-		}
-	}
 
-	if x_mouse > m.Bouton_X+270 && x_mouse < m.Bouton_X+550 && y_mouse > m.Bouton_Y+125+130+135 && y_mouse < m.Bouton_Y+250+105+135 {
-		rl.DrawTexture(m.QuitButtonOver, m.Bouton_X, m.Bouton_Y+255, rl.RayWhite)
+	if x_mouse > m.Bouton_X+270 && x_mouse < m.Bouton_X+550 && y_mouse > m.Bouton_Y+125+125 && y_mouse < m.Bouton_Y+235 + 125 {
+		rl.DrawTexture(m.QuitButtonOver, m.Bouton_X, m.Bouton_Y+125, rl.RayWhite)
 		if rl.IsMouseButtonPressed(0) {
 			rl.CloseWindow()
 		}
@@ -205,7 +197,7 @@ func (m *Menu) Afficher_Menu_Principal() {
 	rl.EndDrawing()
 }
 
-func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
+func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 	rl.BeginDrawing()
 	rl.ClearBackground(rl.White)
 
@@ -249,6 +241,28 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		0,
 		rl.RayWhite,
 	)
+
+	enemy.Frame_count_sprite++
+
+	if enemy.Frame_count_sprite == 6 && enemy.Sr_sprite.X == 9360 {
+		enemy.Frame_count_sprite = 0
+		enemy.Sr_sprite.X = 0
+	} else if enemy.Frame_count_sprite == 6 {
+		enemy.Frame_count_sprite = 0
+		enemy.Sr_sprite.X += 720
+	}
+
+	rl.DrawTexturePro(
+		enemy.Sprite,
+		enemy.Sr_sprite,
+		enemy.Dr_sprite,
+		enemy.Vector_sprite,
+		0,
+		rl.RayWhite,
+	)
+
+
+
 
 	rl.EndDrawing()
 
@@ -295,6 +309,34 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.Vector_sprite = rl.NewVector2(0, 0)
 	p.Sprite_Speed = 3
 	p.Running = false
+}
+
+type Enemy struct {
+	name string
+	level int
+	MaxHealthPoint int
+	currentHealthPoint int
+
+	Sprite rl.Texture2D
+	Sr_sprite rl.Rectangle
+	Dr_sprite rl.Rectangle
+	Vector_sprite rl.Vector2
+
+	Frame_count_sprite int
+}
+
+func (e *Enemy) Init() {
+	e.name = "Abdel"
+	e.level = 20
+	e.MaxHealthPoint = 300
+	e.currentHealthPoint = 300
+
+	e.Sprite = rl.LoadTexture("assets/Tilesets/enemy.png")
+	e.Sr_sprite = rl.NewRectangle(0, 0, 720, 720)
+	e.Dr_sprite = rl.NewRectangle(1400, 740, 256, 256)
+	e.Vector_sprite = rl.NewVector2(0, 0)
+
+	e.Frame_count_sprite = 0
 }
 
 type SpriteStruct struct {
