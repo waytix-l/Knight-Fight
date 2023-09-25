@@ -45,8 +45,8 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 
 		case 1:
 			m.Afficher_Menu_Jeu(&perso, &enemy)
-		
-		case 2 :
+
+		case 2:
 			m.Afficher_Donjon(&perso, &enemy)
 		}
 
@@ -103,16 +103,16 @@ type Menu struct {
 
 	//----- Menu Donjon -----//
 
-	Fond_Donjon rl.Texture2D
-	Sr_fond_donjon rl.Rectangle
-	Dr_fond_donjon rl.Rectangle
+	Fond_Donjon        rl.Texture2D
+	Sr_fond_donjon     rl.Rectangle
+	Dr_fond_donjon     rl.Rectangle
 	Vector_fond_donjon rl.Vector2
 
 	filtre_sombre rl.Texture2D
 
-	Sol_donjon rl.Texture2D
-	Sr_sol_donjon rl.Rectangle
-	Dr_sol_donjon rl.Rectangle
+	Sol_donjon        rl.Texture2D
+	Sr_sol_donjon     rl.Rectangle
+	Dr_sol_donjon     rl.Rectangle
 	Vector_sol_donjon rl.Vector2
 }
 
@@ -215,8 +215,7 @@ func (m *Menu) Afficher_Menu_Principal() {
 		}
 	}
 
-
-	if x_mouse > m.Bouton_X+270 && x_mouse < m.Bouton_X+550 && y_mouse > m.Bouton_Y+125+125 && y_mouse < m.Bouton_Y+235 + 125 {
+	if x_mouse > m.Bouton_X+270 && x_mouse < m.Bouton_X+550 && y_mouse > m.Bouton_Y+125+125 && y_mouse < m.Bouton_Y+235+125 {
 		rl.DrawTexture(m.QuitButtonOver, m.Bouton_X, m.Bouton_Y+125, rl.RayWhite)
 		if rl.IsMouseButtonPressed(0) {
 			rl.CloseWindow()
@@ -269,10 +268,26 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
-	
+	if perso.Dr_sprite.X > 440 && perso.Dr_sprite.X < 560 {
+		rl.DrawText("APPUYEZ SUR 'E' POUR", 470, 840, 15, rl.Red)
+		rl.DrawText("DÉCOUVRIR LE SYSTÈME DE COMBAT", 430, 870, 15, rl.Red)
+		if rl.IsKeyDown(rl.KeyE) {
+			rl.DrawText("SYSTÈME DE COMBAT", 730, 200, 40, rl.DarkGray)
+		}
+	}
 
+	if perso.Dr_sprite.X > 930 && perso.Dr_sprite.X < 970 && perso.Donjon < 1{
+		rl.DrawText("APPUYEZ SUR 'C' POUR", 930, 770, 15, rl.Red)
+		rl.DrawText("ENTRER DANS LE DONJON", 920, 800, 15, rl.Red)
+		if rl.IsKeyPressed(rl.KeyC) {
+			m.menu = 2
+			perso.Dr_sprite.X = 200
+			perso.Dr_sprite.Y = 860
+			perso.Donjon = 1
+		}
+	}
 
-
+	fmt.Println(perso.Dr_sprite)
 
 	rl.EndDrawing()
 
@@ -280,16 +295,9 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 		rl.CloseWindow()
 	}
 
-	if rl.IsKeyPressed(rl.KeyC) {
-		m.menu = 2
-		perso.Dr_sprite.X = 200
-		perso.Dr_sprite.Y = 860
-	}
-
 }
 
-func (m *Menu)Afficher_Donjon(perso *Personnage, enemy *Enemy) {
-
+func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 
 	rl.BeginDrawing()
 	rl.ClearBackground(rl.White)
@@ -314,7 +322,6 @@ func (m *Menu)Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
-
 	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 		perso.Dr_sprite.Y -= perso.Sprite_Speed
 	}
@@ -336,7 +343,6 @@ func (m *Menu)Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
-
 	enemy.Frame_count_sprite++
 
 	if enemy.Frame_count_sprite == 6 && enemy.Sr_sprite.X == 9360 {
@@ -357,13 +363,18 @@ func (m *Menu)Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	)
 
 	rl.EndDrawing()
-	
+
 	if rl.IsKeyPressed(rl.KeyEscape) {
 		rl.CloseWindow()
 	}
 
-}
+	if rl.IsKeyPressed(rl.KeyC) {
+		m.menu = 1
+		perso.Dr_sprite.X = 950
+		perso.Dr_sprite.Y = 840
+	}
 
+}
 
 type ClassPerso int
 
@@ -386,6 +397,7 @@ type Personnage struct {
 	Vector_sprite rl.Vector2
 	Sprite_Speed  float32
 	Running       bool
+	Donjon        int
 }
 
 func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoint int, CurrentHealthPoint int, Inventory map[string]int) {
@@ -402,17 +414,18 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.Vector_sprite = rl.NewVector2(0, 0)
 	p.Sprite_Speed = 3
 	p.Running = false
+	p.Donjon = 0
 }
 
 type Enemy struct {
-	name string
-	level int
-	MaxHealthPoint int
+	name               string
+	level              int
+	MaxHealthPoint     int
 	currentHealthPoint int
 
-	Sprite rl.Texture2D
-	Sr_sprite rl.Rectangle
-	Dr_sprite rl.Rectangle
+	Sprite        rl.Texture2D
+	Sr_sprite     rl.Rectangle
+	Dr_sprite     rl.Rectangle
 	Vector_sprite rl.Vector2
 
 	Frame_count_sprite int
