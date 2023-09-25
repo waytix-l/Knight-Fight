@@ -173,7 +173,7 @@ func (g *GameEngine) RunningGameEngine() {
 			)
 
 
-			if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
+			if rl.IsKeyPressed(rl.KeyW) || rl.IsKeyPressed(rl.KeyUp) {
 				playerDest.Y -= playerSpeed * 20
 				time.Sleep(time.Millisecond * 2)
 				playerDest.Y += playerSpeed * 20
@@ -200,7 +200,6 @@ func (g *GameEngine) RunningGameEngine() {
 				playerSrc.X += 128
 				frame_count_eclair = 0
 			}
-
 
 
 
