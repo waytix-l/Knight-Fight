@@ -265,11 +265,42 @@ func (g *GameEngine) RunningGameEngine() {
 
 }
 
-//func menu_principal() {
 
-//}
 
 //--------------------------------------------
+
+type MenuPrincipal struct {
+	FrameCount int
+	X_mouse int32
+	Y_mouse int32
+
+	Fond rl.Texture2D
+	Sr_fond rl.Rectangle
+	Dr_fond rl.Rectangle
+	Vector_fond rl.Vector2
+
+	Title rl.Texture2D
+	Sr_title rl.Rectangle
+	Dr_title rl.Rectangle
+	Vector_title rl.Vector2
+
+	Bouton_X int32
+	Bouton_Y int32
+
+	StartButton rl.Texture2D
+	StartButtonOver rl.Texture2D
+
+	SettingsButton rl.Texture2D
+	SettingsButtonOver rl.Texture2D
+
+	QuitButton rl.Texture2D
+	QuitButtonOver rl.Texture2D
+}
+
+func (m *MenuPrincipal) Afficher_Menu() {
+	
+}
+
 
 type ClassPerso int
 
