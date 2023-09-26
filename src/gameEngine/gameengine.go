@@ -339,19 +339,19 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	}
 
 
-	rl.DrawText(perso.name, int32(1780 - 10*len(perso.name)), 35, 30, rl.Black)
+	rl.DrawText(perso.name, int32(1730 - 10*len(perso.name)), 35, 30, rl.Black)
 	rl.DrawText(currentHealthPoint, 1700, 90, 35, couleur_vie)
 	rl.DrawText("/", 1760, 90, 35, couleur_vie)
 	rl.DrawText(maxHealthPoint, 1800, 90, 35, couleur_vie)
-	rl.DrawText("Level :", 90, 150, 40, rl.Red)
-	rl.DrawText(level, 240, 150, 40, rl.Red)
+	rl.DrawText("Lvl :", 1790, 35, 30, rl.Black)
+	rl.DrawText(level, 1860, 35, 30, rl.Black)
 	rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
 
 	if rl.IsKeyPressed(rl.KeyG) {
 		if perso.currentHealthPoint < perso.maxHealthPoint {
 			perso.currentHealthPoint -= 10
 		}
-
+		perso.level++
 	}
 
 	if perso.Dr_sprite.X > 440 && perso.Dr_sprite.X < 560 {
