@@ -332,14 +332,13 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	level := fmt.Sprint(perso.level)
 
 	couleur_vie := rl.Green
-	if perso.currentHealthPoint <= perso.maxHealthPoint / 10 {
+	if perso.currentHealthPoint <= perso.maxHealthPoint/10 {
 		couleur_vie = rl.Red
-	} else if perso.currentHealthPoint <= perso.maxHealthPoint / 2 {
+	} else if perso.currentHealthPoint <= perso.maxHealthPoint/2 {
 		couleur_vie = rl.Yellow
 	}
 
-
-	rl.DrawText(perso.name, int32(1730 - 10*len(perso.name)), 35, 30, rl.Black)
+	rl.DrawText(perso.name, int32(1730-10*len(perso.name)), 35, 30, rl.Black)
 	rl.DrawText(currentHealthPoint, 1700, 90, 35, couleur_vie)
 	rl.DrawText("/", 1760, 90, 35, couleur_vie)
 	rl.DrawText(maxHealthPoint, 1800, 90, 35, couleur_vie)
@@ -406,47 +405,38 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
-	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
-		perso.FrameCount++
-		perso.Dr_sprite.Y -= perso.Sprite_Speed
-
-		if perso.FrameCount == 3 {
-			perso.Sr_sprite.X += 128
-			perso.FrameCount = 0
-		}
-		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
-
-	} else if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
-		perso.FrameCount++
-		perso.Dr_sprite.X -= perso.Sprite_Speed
-		if perso.FrameCount == 3 {
-			perso.Sr_sprite.X += 128
-			perso.FrameCount = 0
-		}
-		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
-
-	} else if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
-		perso.FrameCount++
-		perso.Dr_sprite.X += perso.Sprite_Speed
-		if perso.FrameCount == 3 {
-			perso.Sr_sprite.X += 128
-			perso.FrameCount = 0
-		}
-		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
-
-	} else {
-		perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
-	}
+	rl.DrawTexturePro(
+		m.Ath,
+		m.Sr_Ath,
+		m.Dr_Ath,
+		m.Vector_Ath,
+		0,
+		rl.White,
+	)
 
 	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
 	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
 	level := fmt.Sprint(perso.level)
 
-	rl.DrawText(currentHealthPoint, 100, 100, 40, rl.Red)
-	rl.DrawText("/", 155, 100, 40, rl.Red)
-	rl.DrawText(maxHealthPoint, 190, 100, 40, rl.Red)
-	rl.DrawText("Level :", 100, 150, 40, rl.Red)
-	rl.DrawText(level, 250, 150, 40, rl.Red)
+	couleur_vie := rl.Green
+	if perso.currentHealthPoint <= perso.maxHealthPoint/10 {
+		couleur_vie = rl.Red
+	} else if perso.currentHealthPoint <= perso.maxHealthPoint/2 {
+		couleur_vie = rl.Yellow
+	}
+
+	rl.DrawText(perso.name, int32(1730-10*len(perso.name)), 35, 30, rl.Black)
+	rl.DrawText(currentHealthPoint, 1700, 90, 35, couleur_vie)
+	rl.DrawText("/", 1760, 90, 35, couleur_vie)
+	rl.DrawText(maxHealthPoint, 1800, 90, 35, couleur_vie)
+	rl.DrawText("Lvl :", 1790, 35, 30, rl.Black)
+	rl.DrawText(level, 1860, 35, 30, rl.Black)
+	rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
+
+	perso.Dr_sprite.X = 600
+	perso.Dr_sprite.Y = 740
+	perso.Dr_sprite.Width = 256
+	perso.Dr_sprite.Height = 256
 
 	rl.DrawTexturePro(
 		perso.sprite,
@@ -486,6 +476,8 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		m.menu = 1
 		perso.Dr_sprite.X = 950
 		perso.Dr_sprite.Y = 840
+		perso.Dr_sprite.Width = 128
+		perso.Dr_sprite.Height = 128
 	}
 
 }
@@ -559,7 +551,7 @@ func (e *Enemy) Init() {
 
 	e.Sprite = rl.LoadTexture("assets/Tilesets/enemy.png")
 	e.Sr_sprite = rl.NewRectangle(0, 0, 720, 720)
-	e.Dr_sprite = rl.NewRectangle(1400, 700, 256, 256)
+	e.Dr_sprite = rl.NewRectangle(1000, 550, 512, 512)
 	e.Vector_sprite = rl.NewVector2(0, 0)
 
 	e.Frame_count_sprite = 0
