@@ -44,11 +44,13 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 			m.Afficher_Menu_Principal()
 
 		case 1:
-			m.Afficher_Menu_Jeu(&perso, &enemy)
+			m.Afficher_Menu_Jeu(&perso)
 
 		case 2:
 			m.Afficher_Donjon(&perso, &enemy)
+
 		case 3:
+			m.Afficher_Menu_Jeu_porte2(&perso)
 
 		}
 
@@ -227,7 +229,7 @@ func (m *Menu) Afficher_Menu_Principal() {
 	rl.EndDrawing()
 }
 
-func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
+func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	rl.BeginDrawing()
 	rl.ClearBackground(rl.White)
 
@@ -252,6 +254,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 		perso.FrameCount++
 		perso.Dr_sprite.Y -= perso.Sprite_Speed
+
 		if perso.FrameCount == 3 {
 			perso.Sr_sprite.X += 128
 			perso.FrameCount = 0
@@ -291,10 +294,21 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 
 	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
 	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
+	level := fmt.Sprint(perso.level)
 
-	rl.DrawText((currentHealthPoint), 100, 100, 40, rl.Red)
+	rl.DrawText(currentHealthPoint, 90, 100, 40, rl.Red)
 	rl.DrawText("/", 155, 100, 40, rl.Red)
-	rl.DrawText((maxHealthPoint), 190, 100, 40, rl.Red)
+	rl.DrawText(maxHealthPoint, 190, 100, 40, rl.Red)
+	rl.DrawText("Level :", 90, 150, 40, rl.Red)
+	rl.DrawText(level, 240, 150, 40, rl.Red)
+	rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
+
+	if rl.IsKeyPressed(rl.KeyG) {
+		if perso.currentHealthPoint < perso.maxHealthPoint {
+			perso.currentHealthPoint += 10
+		}
+
+	}
 
 	if perso.Dr_sprite.X > 440 && perso.Dr_sprite.X < 560 {
 		rl.DrawText("APPUYEZ SUR 'E' POUR", 470, 840, 15, rl.Red)
@@ -349,16 +363,46 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	)
 
 	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
+		perso.FrameCount++
 		perso.Dr_sprite.Y -= perso.Sprite_Speed
-	}
-	if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
+
+		if perso.FrameCount == 3 {
+			perso.Sr_sprite.X += 128
+			perso.FrameCount = 0
+		}
+		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
+
+	} else if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
+		perso.FrameCount++
 		perso.Dr_sprite.X -= perso.Sprite_Speed
-		perso.Running = true
-	}
-	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
+		if perso.FrameCount == 3 {
+			perso.Sr_sprite.X += 128
+			perso.FrameCount = 0
+		}
+		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
+
+	} else if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
+		perso.FrameCount++
 		perso.Dr_sprite.X += perso.Sprite_Speed
-		perso.Running = true
+		if perso.FrameCount == 3 {
+			perso.Sr_sprite.X += 128
+			perso.FrameCount = 0
+		}
+		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
+
+	} else {
+		perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 	}
+
+	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
+	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
+	level := fmt.Sprint(perso.level)
+
+	rl.DrawText(currentHealthPoint, 100, 100, 40, rl.Red)
+	rl.DrawText("/", 155, 100, 40, rl.Red)
+	rl.DrawText(maxHealthPoint, 190, 100, 40, rl.Red)
+	rl.DrawText("Level :", 100, 150, 40, rl.Red)
+	rl.DrawText(level, 250, 150, 40, rl.Red)
 
 	rl.DrawTexturePro(
 		perso.sprite,
