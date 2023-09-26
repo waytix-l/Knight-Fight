@@ -105,6 +105,9 @@ type Menu struct {
 	Dr_sol     rl.Rectangle
 	Vector_sol rl.Vector2
 
+	Ground_Pos int
+	Gravity    int
+
 	Ath        rl.Texture2D
 	Sr_Ath     rl.Rectangle
 	Dr_Ath     rl.Rectangle
@@ -164,9 +167,12 @@ func (m *Menu) Init_Menu() {
 	m.Dr_sol = rl.NewRectangle(0, 400, 3500, 2000)
 	m.Vector_sol = rl.NewVector2(0, 0)
 
+	m.Ground_Pos = 840
+	m.Gravity = 1
+
 	m.Ath = rl.LoadTexture("assets/Tilesets/ath.png")
-	m.Sr_Ath = rl.NewRectangle(0, 0, 101, 177)
-	m.Dr_Ath = rl.NewRectangle(0, 0, 200, 400)
+	m.Sr_Ath = rl.NewRectangle(0, 0, 500, 650)
+	m.Dr_Ath = rl.NewRectangle(1360, -220, 1200, 1400)
 	m.Vector_Ath = rl.NewVector2(0, 0)
 
 	//----- Menu Donjon -----//
@@ -270,24 +276,17 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		rl.White,
 	)
 
-	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
-		perso.FrameCount++
-		perso.Dr_sprite.Y -= perso.Sprite_Speed
-
-		if perso.FrameCount == 3 {
-			perso.Sr_sprite.X += 128
-			perso.FrameCount = 0
-		}
-		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
-
-	} else if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
+	if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
 		perso.FrameCount++
 		perso.Dr_sprite.X -= perso.Sprite_Speed
 		if perso.FrameCount == 3 {
 			perso.Sr_sprite.X += 128
 			perso.FrameCount = 0
 		}
-		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
+		perso.sprite = rl.LoadTexture("assets/Tilesets/runleft.png")
+		if rl.IsKeyDown(rl.KeySpace) && perso.Dr_sprite.Y >= float32(m.Ground_Pos) {
+			perso.Dr_sprite.Y -= 40
+		}
 
 	} else if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
 		perso.FrameCount++
@@ -297,9 +296,26 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 			perso.FrameCount = 0
 		}
 		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
+		if rl.IsKeyDown(rl.KeySpace) && perso.Dr_sprite.Y >= float32(m.Ground_Pos) {
+			perso.Dr_sprite.Y -= 40
+		}
 
 	} else {
 		perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
+	}
+
+	if rl.IsKeyDown(rl.KeySpace) && perso.Dr_sprite.Y >= float32(m.Ground_Pos) {
+		for i := 0; i < 80; i++ {
+			if i%2 == 0 {
+				perso.Dr_sprite.Y--
+			}
+		}
+	}
+
+	if perso.Dr_sprite.Y >= float32(m.Ground_Pos) {
+		perso.Dr_sprite.Y = float32(m.Ground_Pos)
+	} else {
+		perso.Dr_sprite.Y += float32(m.Gravity)
 	}
 
 	rl.DrawTexturePro(
