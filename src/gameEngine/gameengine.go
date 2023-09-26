@@ -105,6 +105,11 @@ type Menu struct {
 	Dr_sol     rl.Rectangle
 	Vector_sol rl.Vector2
 
+	Ath        rl.Texture2D
+	Sr_Ath     rl.Rectangle
+	Dr_Ath     rl.Rectangle
+	Vector_Ath rl.Vector2
+
 	//----- Menu Donjon -----//
 
 	Fond_Donjon        rl.Texture2D
@@ -158,6 +163,11 @@ func (m *Menu) Init_Menu() {
 	m.Sr_sol = rl.NewRectangle(0, 700, 1500, 1080)
 	m.Dr_sol = rl.NewRectangle(0, 400, 3500, 2000)
 	m.Vector_sol = rl.NewVector2(0, 0)
+
+	m.Ath = rl.LoadTexture("assets/Tilesets/ath.png")
+	m.Sr_Ath = rl.NewRectangle(0, 0, 101, 177)
+	m.Dr_Ath = rl.NewRectangle(0, 0, 200, 400)
+	m.Vector_Ath = rl.NewVector2(0, 0)
 
 	//----- Menu Donjon -----//
 
@@ -247,6 +257,15 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		m.Sr_sol,
 		m.Dr_sol,
 		m.Vector_sol,
+		0,
+		rl.White,
+	)
+
+	rl.DrawTexturePro(
+		m.Ath,
+		m.Sr_Ath,
+		m.Dr_Ath,
+		m.Vector_Ath,
 		0,
 		rl.White,
 	)
