@@ -150,7 +150,7 @@ func (m *Menu) Init_Menu() {
 	m.Dr_Montagne = rl.NewRectangle(0, 0, 1920, 1080)
 	m.Vector_montagne = rl.NewVector2(0, 0)
 
-	m.Sol = rl.LoadTexture("assets/Tilesets/mapv2.png")
+	m.Sol = rl.LoadTexture("assets/Tilesets/mapv1.0.png")
 	m.Sr_sol = rl.NewRectangle(0, 700, 1500, 1080)
 	m.Dr_sol = rl.NewRectangle(0, 400, 3500, 2000)
 	m.Vector_sol = rl.NewVector2(0, 0)
