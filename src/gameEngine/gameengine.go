@@ -285,7 +285,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		}
 		perso.sprite = rl.LoadTexture("assets/Tilesets/runleft.png")
 		if rl.IsKeyDown(rl.KeySpace) && perso.Dr_sprite.Y >= float32(m.Ground_Pos) {
-			perso.Dr_sprite.Y -= 40
+			perso.jump = true
 		}
 
 	} else if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
@@ -297,7 +297,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		}
 		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
 		if rl.IsKeyDown(rl.KeySpace) && perso.Dr_sprite.Y >= float32(m.Ground_Pos) {
-			perso.Dr_sprite.Y -= 40
+			perso.jump = true
 		}
 
 	} else {
@@ -310,7 +310,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 
 	if perso.jump {
 		perso.jump_timer++
-		if perso.jump_timer < 80 {
+		if perso.jump_timer < 12 {
 			perso.Dr_sprite.Y -= perso.Sprite_Speed
 		} else if perso.Dr_sprite.Y != float32(m.Ground_Pos) {
 			perso.Dr_sprite.Y += perso.Sprite_Speed
