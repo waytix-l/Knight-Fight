@@ -34,7 +34,7 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 
 	var perso Personnage
 	inventaire := make(map[string]int)
-	perso.Init("Lucas", Archer, 1, 100, 50, inventaire)
+	perso.Init("Lucas", Archer, 1, 100, 60, inventaire)
 	var enemy Enemy
 	enemy.Init()
 
@@ -331,16 +331,25 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
 	level := fmt.Sprint(perso.level)
 
-	rl.DrawText(currentHealthPoint, 90, 100, 40, rl.Red)
-	rl.DrawText("/", 155, 100, 40, rl.Red)
-	rl.DrawText(maxHealthPoint, 190, 100, 40, rl.Red)
+	couleur_vie := rl.Green
+	if perso.currentHealthPoint <= perso.maxHealthPoint / 10 {
+		couleur_vie = rl.Red
+	} else if perso.currentHealthPoint <= perso.maxHealthPoint / 2 {
+		couleur_vie = rl.Yellow
+	}
+
+
+	rl.DrawText(perso.name, int32(1780 - 10*len(perso.name)), 35, 30, rl.Black)
+	rl.DrawText(currentHealthPoint, 1700, 90, 35, couleur_vie)
+	rl.DrawText("/", 1760, 90, 35, couleur_vie)
+	rl.DrawText(maxHealthPoint, 1800, 90, 35, couleur_vie)
 	rl.DrawText("Level :", 90, 150, 40, rl.Red)
 	rl.DrawText(level, 240, 150, 40, rl.Red)
 	rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
 
 	if rl.IsKeyPressed(rl.KeyG) {
 		if perso.currentHealthPoint < perso.maxHealthPoint {
-			perso.currentHealthPoint += 10
+			perso.currentHealthPoint -= 10
 		}
 
 	}
