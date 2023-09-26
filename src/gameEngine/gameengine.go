@@ -34,7 +34,7 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 
 	var perso Personnage
 	inventaire := make(map[string]int)
-	perso.Init("Lucas", Archer, 1, 100, 60, inventaire)
+	perso.Init("Abdel", Archer, 1, 100, 60, inventaire)
 	var enemy Enemy
 	enemy.Init()
 
@@ -126,6 +126,11 @@ type Menu struct {
 	Sr_sol_donjon     rl.Rectangle
 	Dr_sol_donjon     rl.Rectangle
 	Vector_sol_donjon rl.Vector2
+
+	Ath_donjon        rl.Texture2D
+	Sr_Ath_donjon     rl.Rectangle
+	Dr_Ath_donjon     rl.Rectangle
+	Vector_Ath_donjon rl.Vector2
 }
 
 func (m *Menu) Init_Menu() {
@@ -188,6 +193,11 @@ func (m *Menu) Init_Menu() {
 	m.Sr_sol_donjon = rl.NewRectangle(0, 0, 970, 400)
 	m.Dr_sol_donjon = rl.NewRectangle(0, 0, 1920, 1080)
 	m.Vector_sol_donjon = rl.NewVector2(0, 0)
+
+	m.Ath_donjon = rl.LoadTexture("assets/Tilesets/ath.png")
+	m.Sr_Ath_donjon = rl.NewRectangle(0, 0, 500, 650)
+	m.Dr_Ath_donjon = rl.NewRectangle(-250, 430, 1200, 1400)
+	m.Vector_Ath_donjon = rl.NewVector2(0, 0)
 }
 
 func (m *Menu) Afficher_Menu_Principal() {
@@ -340,6 +350,12 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
 	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
 	level := fmt.Sprint(perso.level)
+	class := ""
+	if perso.class == 0 {
+		class = "Archer"
+	} else if perso.class == 1 {
+		class = "Warrior"
+	}
 
 	couleur_vie := rl.Green
 	if perso.currentHealthPoint <= perso.maxHealthPoint/10 {
@@ -348,13 +364,14 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		couleur_vie = rl.Yellow
 	}
 
-	rl.DrawText(perso.name, int32(1730-10*len(perso.name)), 35, 30, rl.Black)
-	rl.DrawText(currentHealthPoint, 1700, 90, 35, couleur_vie)
-	rl.DrawText("/", 1760, 90, 35, couleur_vie)
-	rl.DrawText(maxHealthPoint, 1800, 90, 35, couleur_vie)
-	rl.DrawText("Lvl :", 1790, 35, 30, rl.Black)
-	rl.DrawText(level, 1860, 35, 30, rl.Black)
+	rl.DrawText(perso.name, int32(1785-10*len(perso.name)), 35, 30, rl.Black)
+	rl.DrawText(currentHealthPoint, 1700, 80, 30, couleur_vie)
+	rl.DrawText("/", 1760, 80, 30, couleur_vie)
+	rl.DrawText(maxHealthPoint, 1800, 80, 30, couleur_vie)
+	rl.DrawText("Lvl.", 1795, 120, 30, rl.Black)
+	rl.DrawText(level, 1850, 120, 30, rl.Black)
 	rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
+	rl.DrawText(class, 1670, 120, 30, rl.Black)
 
 	if rl.IsKeyPressed(rl.KeyG) {
 		if perso.currentHealthPoint < perso.maxHealthPoint {
@@ -378,6 +395,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 			m.menu = 2
 			perso.Dr_sprite.X = 200
 			perso.Dr_sprite.Y = 860
+			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 			perso.Donjon = 1
 		}
 	}
@@ -416,10 +434,10 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	)
 
 	rl.DrawTexturePro(
-		m.Ath,
-		m.Sr_Ath,
-		m.Dr_Ath,
-		m.Vector_Ath,
+		m.Ath_donjon,
+		m.Sr_Ath_donjon,
+		m.Dr_Ath_donjon,
+		m.Vector_Ath_donjon,
 		0,
 		rl.White,
 	)
@@ -441,7 +459,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	rl.DrawText(maxHealthPoint, 1800, 90, 35, couleur_vie)
 	rl.DrawText("Lvl :", 1790, 35, 30, rl.Black)
 	rl.DrawText(level, 1860, 35, 30, rl.Black)
-	rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
+	//rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
 
 	perso.Dr_sprite.X = 600
 	perso.Dr_sprite.Y = 740
