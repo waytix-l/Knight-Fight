@@ -48,6 +48,8 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 
 		case 2:
 			m.Afficher_Donjon(&perso, &enemy)
+		case 3 :
+
 		}
 
 	}
@@ -268,6 +270,8 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
+	fmt.Println(perso.Dr_sprite)
+
 	if perso.Dr_sprite.X > 440 && perso.Dr_sprite.X < 560 {
 		rl.DrawText("APPUYEZ SUR 'E' POUR", 470, 840, 15, rl.Red)
 		rl.DrawText("DÉCOUVRIR LE SYSTÈME DE COMBAT", 430, 870, 15, rl.Red)
@@ -276,9 +280,9 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 		}
 	}
 
-	if perso.Dr_sprite.X > 930 && perso.Dr_sprite.X < 970 && perso.Donjon < 1{
-		rl.DrawText("APPUYEZ SUR 'C' POUR", 930, 770, 15, rl.Red)
-		rl.DrawText("ENTRER DANS LE DONJON", 920, 800, 15, rl.Red)
+	if perso.Dr_sprite.X > 1000 && perso.Dr_sprite.X < 1060 && perso.Donjon < 1{
+		rl.DrawText("APPUYEZ SUR 'C' POUR", 1010, 750, 15, rl.Red)
+		rl.DrawText("ENTRER DANS LE DONJON", 1000, 780, 15, rl.Red)
 		if rl.IsKeyPressed(rl.KeyC) {
 			m.menu = 2
 			perso.Dr_sprite.X = 200
@@ -373,6 +377,15 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		perso.Dr_sprite.X = 950
 		perso.Dr_sprite.Y = 840
 	}
+
+}
+
+
+func (m *Menu)Afficher_Menu_Jeu_porte2(perso *Personnage) {
+
+	
+
+
 
 }
 
