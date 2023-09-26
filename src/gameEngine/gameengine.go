@@ -305,17 +305,23 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	}
 
 	if rl.IsKeyDown(rl.KeySpace) && perso.Dr_sprite.Y >= float32(m.Ground_Pos) {
-		for i := 0; i < 80; i++ {
-			if i%2 == 0 {
-				perso.Dr_sprite.Y--
-			}
+		perso.jump = true
+	}
+
+	if perso.jump {
+		perso.jump_timer++
+		if perso.jump_timer < 80 {
+			perso.Dr_sprite.Y -= perso.Sprite_Speed
+		} else if perso.Dr_sprite.Y != float32(m.Ground_Pos) {
+			perso.Dr_sprite.Y += perso.Sprite_Speed
 		}
 	}
 
-	if perso.Dr_sprite.Y >= float32(m.Ground_Pos) {
+	if perso.Dr_sprite.Y == float32(m.Ground_Pos) {
+		perso.jump = false
+		perso.jump_timer = 0
+
 		perso.Dr_sprite.Y = float32(m.Ground_Pos)
-	} else {
-		perso.Dr_sprite.Y += float32(m.Gravity)
 	}
 
 	rl.DrawTexturePro(
@@ -509,6 +515,8 @@ type Personnage struct {
 	Sprite_Speed  float32
 	Running       bool
 	Donjon        int
+	jump          bool
+	jump_timer    int
 }
 
 func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoint int, CurrentHealthPoint int, Inventory map[string]int) {
@@ -527,6 +535,8 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.Sprite_Speed = 3
 	p.Running = false
 	p.Donjon = 0
+	p.jump = false
+	p.jump_timer = 0
 }
 
 type Enemy struct {
