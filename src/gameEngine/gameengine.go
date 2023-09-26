@@ -310,16 +310,18 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 
 	if perso.jump {
 		perso.jump_timer++
-		if perso.jump_timer < 30 {
+		if perso.jump_timer < 20 {
 			perso.Dr_sprite.Y -= perso.Sprite_Speed * 1.3
-		} else if perso.jump_timer < 35 {
+		} else if perso.jump_timer < 25 {
+			perso.Dr_sprite.Y -= perso.Sprite_Speed * 0.8
+		} else if perso.jump_timer < 30 {
 			perso.Dr_sprite.Y = perso.Dr_sprite.Y
 		} else if perso.Dr_sprite.Y != float32(m.Ground_Pos) {
-			perso.Dr_sprite.Y += perso.Sprite_Speed * 1.3
+			perso.Dr_sprite.Y += perso.Sprite_Speed * 1.5
 		}
 	}
 
-	if perso.Dr_sprite.Y == float32(m.Ground_Pos) {
+	if perso.Dr_sprite.Y >= float32(m.Ground_Pos) {
 		perso.jump = false
 		perso.jump_timer = 0
 
