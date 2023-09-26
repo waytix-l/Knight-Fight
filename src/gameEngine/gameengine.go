@@ -48,7 +48,7 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 
 		case 2:
 			m.Afficher_Donjon(&perso, &enemy)
-		case 3 :
+		case 3:
 
 		}
 
@@ -250,15 +250,34 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 	)
 
 	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
+		perso.FrameCount++
 		perso.Dr_sprite.Y -= perso.Sprite_Speed
-	}
-	if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
+		if perso.FrameCount == 3 {
+			perso.Sr_sprite.X += 128
+			perso.FrameCount = 0
+		}
+		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
+
+	} else if (rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft)) && perso.Dr_sprite.X > -40 {
+		perso.FrameCount++
 		perso.Dr_sprite.X -= perso.Sprite_Speed
-		perso.Running = true
-	}
-	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
+		if perso.FrameCount == 3 {
+			perso.Sr_sprite.X += 128
+			perso.FrameCount = 0
+		}
+		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
+
+	} else if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
+		perso.FrameCount++
 		perso.Dr_sprite.X += perso.Sprite_Speed
-		perso.Running = true
+		if perso.FrameCount == 3 {
+			perso.Sr_sprite.X += 128
+			perso.FrameCount = 0
+		}
+		perso.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
+
+	} else {
+		perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 	}
 
 	rl.DrawTexturePro(
@@ -270,7 +289,12 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
-	fmt.Println(perso.Dr_sprite)
+	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
+	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
+
+	rl.DrawText((currentHealthPoint), 100, 100, 40, rl.Red)
+	rl.DrawText("/", 155, 100, 40, rl.Red)
+	rl.DrawText((maxHealthPoint), 190, 100, 40, rl.Red)
 
 	if perso.Dr_sprite.X > 440 && perso.Dr_sprite.X < 560 {
 		rl.DrawText("APPUYEZ SUR 'E' POUR", 470, 840, 15, rl.Red)
@@ -280,7 +304,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 		}
 	}
 
-	if perso.Dr_sprite.X > 1000 && perso.Dr_sprite.X < 1060 && perso.Donjon < 1{
+	if perso.Dr_sprite.X > 1000 && perso.Dr_sprite.X < 1060 && perso.Donjon < 1 {
 		rl.DrawText("APPUYEZ SUR 'C' POUR", 1010, 750, 15, rl.Red)
 		rl.DrawText("ENTRER DANS LE DONJON", 1000, 780, 15, rl.Red)
 		if rl.IsKeyPressed(rl.KeyC) {
@@ -290,8 +314,6 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage, enemy *Enemy) {
 			perso.Donjon = 1
 		}
 	}
-
-	fmt.Println(perso.Dr_sprite)
 
 	rl.EndDrawing()
 
@@ -380,12 +402,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 
 }
 
-
-func (m *Menu)Afficher_Menu_Jeu_porte2(perso *Personnage) {
-
-	
-
-
+func (m *Menu) Afficher_Menu_Jeu_porte2(perso *Personnage) {
 
 }
 
@@ -408,6 +425,7 @@ type Personnage struct {
 	Sr_sprite     rl.Rectangle
 	Dr_sprite     rl.Rectangle
 	Vector_sprite rl.Vector2
+	FrameCount    int
 	Sprite_Speed  float32
 	Running       bool
 	Donjon        int
@@ -421,10 +439,11 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.currentHealthPoint = CurrentHealthPoint
 	p.inventory = Inventory
 
-	p.sprite = rl.LoadTexture("assets/Tilesets/Run.png")
+	p.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 	p.Sr_sprite = rl.NewRectangle(0, 0, 128, 128)
 	p.Dr_sprite = rl.NewRectangle(200, 840, 128, 128)
 	p.Vector_sprite = rl.NewVector2(0, 0)
+	p.FrameCount = 0
 	p.Sprite_Speed = 3
 	p.Running = false
 	p.Donjon = 0
