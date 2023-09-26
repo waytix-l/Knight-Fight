@@ -310,10 +310,10 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 
 	if perso.jump {
 		perso.jump_timer++
-		if perso.jump_timer < 12 {
-			perso.Dr_sprite.Y -= perso.Sprite_Speed
+		if perso.jump_timer < 30 {
+			perso.Dr_sprite.Y -= perso.Sprite_Speed * 1.3
 		} else if perso.Dr_sprite.Y != float32(m.Ground_Pos) {
-			perso.Dr_sprite.Y += perso.Sprite_Speed
+			perso.Dr_sprite.Y += perso.Sprite_Speed * 1.3
 		}
 	}
 
