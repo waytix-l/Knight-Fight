@@ -34,7 +34,7 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 
 	var perso Personnage
 	inventaire := make(map[string]int)
-	perso.Init("Abdel", Archer, 1, 100, 60, inventaire)
+	perso.Init("Lukas", Archer, 1, 100, 60, inventaire)
 	var enemy Enemy
 	enemy.Init()
 
@@ -199,6 +199,8 @@ func (m *Menu) Init_Menu() {
 	m.Dr_Ath_donjon = rl.NewRectangle(-250, 430, 1200, 1400)
 	m.Vector_Ath_donjon = rl.NewVector2(0, 0)
 }
+
+//----- Menu
 
 func (m *Menu) Afficher_Menu_Principal() {
 
@@ -373,6 +375,8 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
 	rl.DrawText(class, 1670, 120, 30, rl.Black)
 
+
+
 	if rl.IsKeyPressed(rl.KeyG) {
 		if perso.currentHealthPoint < perso.maxHealthPoint {
 			perso.currentHealthPoint -= 10
@@ -453,16 +457,18 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		couleur_vie = rl.Yellow
 	}
 
-	rl.DrawText(perso.name, int32(1730-10*len(perso.name)), 35, 30, rl.Black)
-	rl.DrawText(currentHealthPoint, 1700, 90, 35, couleur_vie)
-	rl.DrawText("/", 1760, 90, 35, couleur_vie)
-	rl.DrawText(maxHealthPoint, 1800, 90, 35, couleur_vie)
-	rl.DrawText("Lvl :", 1790, 35, 30, rl.Black)
-	rl.DrawText(level, 1860, 35, 30, rl.Black)
+	rl.DrawText(perso.name, int32(715-10*len(perso.name)), 600, 20, rl.White)
+	rl.DrawText(currentHealthPoint, 690, 625, 20, couleur_vie)
+	rl.DrawText("/", 720, 625, 20, couleur_vie)
+	rl.DrawText(maxHealthPoint, 740, 625, 20, couleur_vie)
+	rl.DrawText("Lvl. ", int32(730-10*len(perso.name) + 12 * len(perso.name)), 600, 20, rl.White)
+	rl.DrawText(level, int32(730-10*len(perso.name) + 12 * len(perso.name) + 40), 600, 20, rl.White)
 	//rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
 
+	rl.DrawText(enemy.name, 1235, 400, 20, rl.White)
+
 	perso.Dr_sprite.X = 600
-	perso.Dr_sprite.Y = 740
+	perso.Dr_sprite.Y = 540
 	perso.Dr_sprite.Width = 256
 	perso.Dr_sprite.Height = 256
 
@@ -576,14 +582,14 @@ type Enemy struct {
 }
 
 func (e *Enemy) Init() {
-	e.name = "Abdel"
+	e.name = "Zeljko"
 	e.level = 20
 	e.MaxHealthPoint = 300
 	e.currentHealthPoint = 300
 
 	e.Sprite = rl.LoadTexture("assets/Tilesets/enemy.png")
 	e.Sr_sprite = rl.NewRectangle(0, 0, 720, 720)
-	e.Dr_sprite = rl.NewRectangle(1000, 550, 512, 512)
+	e.Dr_sprite = rl.NewRectangle(1000, 350, 512, 512)
 	e.Vector_sprite = rl.NewVector2(0, 0)
 
 	e.Frame_count_sprite = 0
