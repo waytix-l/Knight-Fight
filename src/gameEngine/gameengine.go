@@ -395,9 +395,9 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		rl.DrawText("ENTRER DANS LE DONJON", 1000, 780, 15, rl.Red)
 		if rl.IsKeyPressed(rl.KeyC) {
 			m.menu = 2
-			perso.Dr_sprite.X = 200
 			perso.Dr_sprite.Y = 860
 			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
+			perso.Dr_sprite.X = 600
 			perso.Donjon = 1
 		}
 	}
@@ -481,7 +481,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	rl.DrawText("Lvl. ", 1280, 380, 20, rl.White)
 	rl.DrawText(level_enemy, 1320, 380, 20, rl.White)
 
-	perso.Dr_sprite.X = 600
+	
 	perso.Dr_sprite.Y = 565
 	perso.Dr_sprite.Width = 256
 	perso.Dr_sprite.Height = 256
@@ -521,14 +521,18 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 
 	if perso.attack1 {
 		perso.timer_attack++
-		
 		if perso.timer_attack < 20 {
-			perso.Dr_sprite.X += perso.Sprite_Speed * 1.5
+			perso.Dr_sprite.X += perso.Sprite_Speed * 7.2
 		} else if perso.timer_attack <= 60 && perso.timer_attack >= 20 {
 			if perso.timer_attack % 4 == 0 {
 				perso.Sr_sprite.X += 128
 			}
+		} else if perso.timer_attack <= 80 && perso.timer_attack > 60 {
+			perso.Dr_sprite.X -= 20.4
+
+
 		} else {
+			enemy.currentHealthPoint -= 50
 			perso.timer_attack = 0
 			perso.attack1 = false
 			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
