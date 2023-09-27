@@ -44,12 +44,15 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 			m.Afficher_Menu_Principal()
 
 		case 1:
-			m.Afficher_Menu_Jeu(&perso)
+			m.Lore_Display()
 
 		case 2:
-			m.Afficher_Donjon(&perso, &enemy)
+			m.Afficher_Menu_Jeu(&perso)
 
 		case 3:
+			m.Afficher_Donjon(&perso, &enemy)
+
+		case 4:
 			m.Afficher_Menu_Jeu_porte2(&perso)
 
 		}
@@ -92,6 +95,8 @@ type Menu struct {
 
 	QuitButton     rl.Texture2D
 	QuitButtonOver rl.Texture2D
+
+	Lore_Display_Frame int
 
 	//----- Menu Jeu -----//
 
@@ -159,6 +164,9 @@ func (m *Menu) Init_Menu() {
 	m.Bouton_Y = 600
 
 	m.FrameCount = 0
+
+
+	m.Lore_Display_Frame = 0
 
 	//----- Menu Jeu -----//
 
@@ -238,6 +246,7 @@ func (m *Menu) Afficher_Menu_Principal() {
 		rl.DrawTexture(m.StartButtonOver, m.Bouton_X, m.Bouton_Y, rl.RayWhite)
 		if rl.IsMouseButtonPressed(0) {
 			fmt.Println("Start")
+			rl.EndDrawing()
 			m.menu = 1
 		}
 	}
@@ -251,6 +260,33 @@ func (m *Menu) Afficher_Menu_Principal() {
 
 	rl.EndDrawing()
 }
+
+func (m *Menu) Lore_Display() {
+	m.Lore_Display_Frame++
+	rl.BeginDrawing()
+	rl.ClearBackground(rl.DarkGray)
+	if m.Lore_Display_Frame < 120 {
+
+	} else if m.Lore_Display_Frame < 300 {
+		rl.DrawText("As you step into this breathtaking realm, a world of unparalleled beauty unfolds before your eyes.", 90, 200, 35, rl.RayWhite)
+		rl.DrawText("Press Enter to skip", 50, 1000, 20, rl.RayWhite)
+	} else if m.Lore_Display_Frame < 600 && m.Lore_Display_Frame >= 300{
+		rl.DrawText("As you step into this breathtaking realm, a world of unparalleled beauty unfolds before your eyes.", 90, 200, 35, rl.RayWhite)
+		rl.DrawText("It is a place where nature's wonders intertwine with the ethereal,", 330, 300, 35, rl.RayWhite)
+		rl.DrawText("Press Enter to skip", 50, 1000, 20, rl.RayWhite)
+	} else if m.Lore_Display_Frame < 1000 && m.Lore_Display_Frame >= 600{
+		m.Lore_Display_Frame = 0
+		m.menu = 2
+	}
+
+	if rl.IsKeyPressed(rl.KeyEnter) {
+		m.Lore_Display_Frame = 0
+		m.menu = 2
+	}
+
+	rl.EndDrawing()
+}
+
 
 func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	rl.BeginDrawing()
@@ -389,7 +425,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		rl.DrawText("APPUYEZ SUR 'C' POUR", 1010, 750, 15, rl.Red)
 		rl.DrawText("ENTRER DANS LE DONJON", 1000, 780, 15, rl.Red)
 		if rl.IsKeyPressed(rl.KeyC) {
-			m.menu = 2
+			m.menu = 3
 			perso.Dr_sprite.Y = 860
 			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 			perso.Dr_sprite.X = 600
@@ -505,6 +541,8 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		perso.attack1 = true
 	} else if rl.IsKeyPressed(rl.KeyH) {
 		enemy.Enemy_attack1 = true
+	} else if rl.IsKeyPressed(rl.KeyB) {
+		perso.attack2 = true
 	} else if rl.IsKeyPressed(rl.KeyJ) {
 		perso.sprite = rl.LoadTexture("assets/Tilesets/Attack_3.png")
 		perso.Sr_sprite.X = 0
@@ -529,6 +567,32 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.Sr_sprite.X = 0
 		}
 	}
+
+	if perso.attack2 {
+		perso.timer_attack++
+		if perso.timer_attack < 20 {
+			perso.Dr_sprite.X += perso.Sprite_Speed * 7
+		} else if perso.timer_attack <= 56 && perso.timer_attack >= 20 {
+			rl.DrawTexturePro(
+				perso.attack2_anim,
+				perso.Sr_attack2,
+				perso.Dr_attack2,
+				perso.Vector_attack2,
+				0,
+				rl.White,
+			)
+			if perso.timer_attack % 3 == 0 {
+				perso.Sr_attack2.X += 240
+			}
+		} else if perso.timer_attack <= 76 && perso.timer_attack > 56 {
+			perso.Dr_sprite.X -= 20
+		} else {
+			perso.timer_attack = 0
+			perso.attack2 = false
+			perso.Sr_attack2.X = 0
+		}
+	}
+
 
 	if perso.attack3 {
 		perso.timer_attack++
@@ -578,7 +642,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	}
 
 	if rl.IsKeyPressed(rl.KeyC) {
-		m.menu = 1
+		m.menu = 2
 		perso.Dr_sprite.X = 950
 		perso.Dr_sprite.Y = 840
 		perso.Dr_sprite.Width = 128
@@ -586,6 +650,12 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	}
 
 }
+
+func Fight(perso *Personnage, enemy *Enemy) {
+
+
+}
+
 
 func (m *Menu) Afficher_Menu_Jeu_porte2(perso *Personnage) {
 
@@ -618,6 +688,11 @@ type Personnage struct {
 	jump_timer    int
 	attack1       bool
 	attack2       bool
+	attack2_anim rl.Texture2D
+	Sr_attack2 rl.Rectangle
+	Dr_attack2 rl.Rectangle
+	Vector_attack2 rl.Vector2
+
 	attack3       bool
 	dodge         bool
 	timer_attack  int
@@ -643,6 +718,12 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.jump_timer = 0
 	p.attack1 = false
 	p.attack2 = false
+
+	p.attack2_anim = rl.LoadTexture("assets/Tilesets/spritesheet_animatedsword.png")
+	p.Sr_attack2 = rl.NewRectangle(0, 0, 240, 196)
+	p.Dr_attack2 = rl.NewRectangle(1100, 600, 240, 196)
+	p.Vector_attack2 = rl.NewVector2(0, 0)
+
 	p.attack3 = false
 	p.dodge = false
 	p.timer_attack = 0
@@ -724,3 +805,4 @@ func (r *DestRectangle) InitDestRectangle(x float32, y float32, width float32, h
 	r.Width = width
 	r.Height = height
 }
+
