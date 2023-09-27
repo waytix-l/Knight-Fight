@@ -193,11 +193,6 @@ func (m *Menu) Init_Menu() {
 	m.Sr_sol_donjon = rl.NewRectangle(0, 0, 970, 400)
 	m.Dr_sol_donjon = rl.NewRectangle(0, 0, 1920, 1080)
 	m.Vector_sol_donjon = rl.NewVector2(0, 0)
-
-	m.Ath_donjon = rl.LoadTexture("assets/Tilesets/ath.png")
-	m.Sr_Ath_donjon = rl.NewRectangle(0, 0, 500, 650)
-	m.Dr_Ath_donjon = rl.NewRectangle(-250, 430, 1200, 1400)
-	m.Vector_Ath_donjon = rl.NewVector2(0, 0)
 }
 
 //----- Menu
@@ -435,15 +430,6 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
-	rl.DrawTexturePro(
-		m.Ath_donjon,
-		m.Sr_Ath_donjon,
-		m.Dr_Ath_donjon,
-		m.Vector_Ath_donjon,
-		0,
-		rl.White,
-	)
-
 	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
 	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
 	level := fmt.Sprint(perso.level)
@@ -481,22 +467,6 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	rl.DrawText("Lvl. ", 1280, 380, 20, rl.White)
 	rl.DrawText(level_enemy, 1320, 380, 20, rl.White)
 
-	
-	perso.Dr_sprite.Y = 565
-	perso.Dr_sprite.Width = 256
-	perso.Dr_sprite.Height = 256
-
-	rl.DrawTexturePro(
-		perso.sprite,
-		perso.Sr_sprite,
-		perso.Dr_sprite,
-		perso.Vector_sprite,
-		0,
-		rl.RayWhite,
-	)
-
-	enemy.Frame_count_sprite++
-
 	if enemy.Frame_count_sprite == 6 && enemy.Sr_sprite.X == 9360 {
 		enemy.Frame_count_sprite = 0
 		enemy.Sr_sprite.X = 0
@@ -514,9 +484,31 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
+	perso.Dr_sprite.Y = 565
+	perso.Dr_sprite.Width = 256
+	perso.Dr_sprite.Height = 256
+
+	rl.DrawTexturePro(
+		perso.sprite,
+		perso.Sr_sprite,
+		perso.Dr_sprite,
+		perso.Vector_sprite,
+		0,
+		rl.RayWhite,
+	)
+
+	enemy.Frame_count_sprite++
+
 	if rl.IsKeyPressed(rl.KeyG) {
 		perso.sprite = rl.LoadTexture("assets/Tilesets/Attack_1.png")
+		perso.Sr_sprite.X = 0
 		perso.attack1 = true
+	} else if rl.IsKeyPressed(rl.KeyH) {
+		enemy.Enemy_attack1 = true
+	} else if rl.IsKeyPressed(rl.KeyJ) {
+		perso.sprite = rl.LoadTexture("assets/Tilesets/Attack_3.png")
+		perso.Sr_sprite.X = 0
+		perso.attack3 = true
 	}
 
 	if perso.attack1 {
@@ -524,13 +516,11 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		if perso.timer_attack < 20 {
 			perso.Dr_sprite.X += perso.Sprite_Speed * 7.2
 		} else if perso.timer_attack <= 60 && perso.timer_attack >= 20 {
-			if perso.timer_attack % 4 == 0 {
+			if perso.timer_attack%4 == 0 {
 				perso.Sr_sprite.X += 128
 			}
 		} else if perso.timer_attack <= 80 && perso.timer_attack > 60 {
-			perso.Dr_sprite.X -= 20.4
-
-
+			perso.Dr_sprite.X -= 20.6
 		} else {
 			enemy.currentHealthPoint -= 50
 			perso.timer_attack = 0
@@ -538,7 +528,47 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 			perso.Sr_sprite.X = 0
 		}
-		
+	}
+
+	if perso.attack3 {
+		perso.timer_attack++
+		if perso.timer_attack < 20 {
+			perso.Dr_sprite.X += 22
+		} else if perso.timer_attack <= 48 && perso.timer_attack >= 20 {
+			if perso.timer_attack%4 == 0 {
+				perso.Sr_sprite.X += 128
+			}
+		} else if perso.timer_attack <= 68 && perso.timer_attack > 48 {
+			perso.Dr_sprite.X -= 20.8
+		} else {
+			enemy.currentHealthPoint -= 100
+			perso.timer_attack = 0
+			perso.attack3 = false
+			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
+			perso.Sr_sprite.X = 0
+		}
+	}
+
+	if enemy.Enemy_attack1 {
+		rl.DrawTexturePro(
+			enemy.Sprite_attack1,
+			enemy.Sr_Sprite_attack1,
+			enemy.Dr_Sprite_attack1,
+			enemy.Vector_Sprite_attack1,
+			0,
+			rl.White,
+		)
+		enemy.timer_attack++
+		if enemy.timer_attack <= 20 {
+			if enemy.timer_attack%4 == 0 {
+				enemy.Sr_Sprite_attack1.X += 112.6
+			}
+		} else {
+			perso.currentHealthPoint -= 20
+			enemy.Sr_Sprite_attack1.X = 0
+			enemy.Enemy_attack1 = false
+			enemy.timer_attack = 0
+		}
 	}
 
 	rl.EndDrawing()
@@ -630,6 +660,13 @@ type Enemy struct {
 	Vector_sprite rl.Vector2
 
 	Frame_count_sprite int
+
+	Enemy_attack1         bool
+	Sprite_attack1        rl.Texture2D
+	Sr_Sprite_attack1     rl.Rectangle
+	Dr_Sprite_attack1     rl.Rectangle
+	Vector_Sprite_attack1 rl.Vector2
+	timer_attack          int
 }
 
 func (e *Enemy) Init() {
@@ -644,6 +681,13 @@ func (e *Enemy) Init() {
 	e.Vector_sprite = rl.NewVector2(0, 0)
 
 	e.Frame_count_sprite = 0
+
+	e.Enemy_attack1 = false
+	e.Sprite_attack1 = rl.LoadTexture("assets/Tilesets/eclair_rouge.png")
+	e.Sr_Sprite_attack1 = rl.NewRectangle(0, 0, 112.6, 298)
+	e.Dr_Sprite_attack1 = rl.NewRectangle(665, 400, 112.6, 298)
+	e.Vector_Sprite_attack1 = rl.NewVector2(0, 0)
+	e.timer_attack = 0
 }
 
 type SpriteStruct struct {
