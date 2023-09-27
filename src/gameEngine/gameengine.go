@@ -200,7 +200,7 @@ func (m *Menu) Init_Menu() {
 	m.Vector_Ath_donjon = rl.NewVector2(0, 0)
 }
 
-//----- Menu 
+//----- Menu
 
 func (m *Menu) Afficher_Menu_Principal() {
 
@@ -327,7 +327,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		} else if perso.jump_timer < 25 {
 			perso.Dr_sprite.Y -= perso.Sprite_Speed * 0.8
 		} else if perso.jump_timer < 30 {
-			
+
 		} else if perso.Dr_sprite.Y != float32(m.Ground_Pos) {
 			perso.Dr_sprite.Y += perso.Sprite_Speed * 1.5
 		}
@@ -374,8 +374,6 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	rl.DrawText(level, 1850, 120, 30, rl.Black)
 	rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
 	rl.DrawText(class, 1670, 120, 30, rl.Black)
-
-
 
 	if rl.IsKeyPressed(rl.KeyG) {
 		if perso.currentHealthPoint < perso.maxHealthPoint {
@@ -450,8 +448,6 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
 	level := fmt.Sprint(perso.level)
 
-
-
 	couleur_vie_perso := rl.Green
 	if perso.currentHealthPoint <= perso.maxHealthPoint/10 {
 		couleur_vie_perso = rl.Red
@@ -463,8 +459,8 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	rl.DrawText(currentHealthPoint, 690, 625, 20, couleur_vie_perso)
 	rl.DrawText("/", 720, 625, 20, couleur_vie_perso)
 	rl.DrawText(maxHealthPoint, 740, 625, 20, couleur_vie_perso)
-	rl.DrawText("Lvl. ", int32(730-10*len(perso.name) + 12 * len(perso.name)), 600, 20, rl.White)
-	rl.DrawText(level, int32(730-10*len(perso.name) + 12 * len(perso.name) + 40), 600, 20, rl.White)
+	rl.DrawText("Lvl. ", int32(730-10*len(perso.name)+12*len(perso.name)), 600, 20, rl.White)
+	rl.DrawText(level, int32(730-10*len(perso.name)+12*len(perso.name)+40), 600, 20, rl.White)
 	//rl.DrawText("'G' : Take Potion", 20, 1050, 20, rl.RayWhite)
 
 	currentHealthPointEnemy := fmt.Sprint(enemy.currentHealthPoint)
@@ -484,7 +480,6 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	rl.DrawText(maxHealthPointEnemy, 1295, 405, 20, couleur_vie_enemy)
 	rl.DrawText("Lvl. ", 1280, 380, 20, rl.White)
 	rl.DrawText(level_enemy, 1320, 380, 20, rl.White)
-
 
 	perso.Dr_sprite.X = 600
 	perso.Dr_sprite.Y = 565
@@ -518,6 +513,29 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		0,
 		rl.RayWhite,
 	)
+
+	if rl.IsKeyPressed(rl.KeyG) {
+		perso.sprite = rl.LoadTexture("assets/Tilesets/Attack_1.png")
+		perso.attack1 = true
+	}
+
+	if perso.attack1 {
+		perso.timer_attack++
+		
+		if perso.timer_attack < 20 {
+			perso.Dr_sprite.X += perso.Sprite_Speed * 1.5
+		} else if perso.timer_attack <= 60 && perso.timer_attack >= 20 {
+			if perso.timer_attack % 4 == 0 {
+				perso.Sr_sprite.X += 128
+			}
+		} else {
+			perso.timer_attack = 0
+			perso.attack1 = false
+			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
+			perso.Sr_sprite.X = 0
+		}
+		
+	}
 
 	rl.EndDrawing()
 
@@ -564,6 +582,11 @@ type Personnage struct {
 	Donjon        int
 	jump          bool
 	jump_timer    int
+	attack1       bool
+	attack2       bool
+	attack3       bool
+	dodge         bool
+	timer_attack  int
 }
 
 func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoint int, CurrentHealthPoint int, Inventory map[string]int) {
@@ -584,6 +607,11 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.Donjon = 0
 	p.jump = false
 	p.jump_timer = 0
+	p.attack1 = false
+	p.attack2 = false
+	p.attack3 = false
+	p.dodge = false
+	p.timer_attack = 0
 }
 
 type Enemy struct {
