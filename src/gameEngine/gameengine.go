@@ -189,7 +189,7 @@ func (m *Menu) Init_Menu() {
 
 	m.filtre_sombre = rl.LoadTexture("assets/Tilesets/filtre_sombre.png")
 
-	m.Sol_donjon = rl.LoadTexture("assets/Tilesets/mapdonjon1.png")
+	m.Sol_donjon = rl.LoadTexture("assets/Tilesets/dungeon1.png")
 	m.Sr_sol_donjon = rl.NewRectangle(0, 0, 970, 400)
 	m.Dr_sol_donjon = rl.NewRectangle(0, 0, 1920, 1080)
 	m.Vector_sol_donjon = rl.NewVector2(0, 0)
