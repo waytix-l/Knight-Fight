@@ -505,8 +505,17 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		rl.DrawTexture(m.Attack1ButtonHover, 0, 0, rl.White)
 	}
 	rl.DrawTexture(m.Attack2Button, 620, 900, rl.White)
+	if x_mouse > m.Bouton_X+220 && x_mouse < m.Bouton_X+400 && y_mouse > m.Bouton_Y+900 && y_mouse < m.Bouton_Y+1300 {
+		rl.DrawTexture(m.Attack2ButtonHover, 0, 0, rl.White)
+	}
 	rl.DrawTexture(m.Attack3Button, 1020, 900, rl.White)
+	if x_mouse > m.Bouton_X+220 && x_mouse < m.Bouton_X+400 && y_mouse > m.Bouton_Y+900 && y_mouse < m.Bouton_Y+1300 {
+		rl.DrawTexture(m.Attack3ButtonHover, 0, 0, rl.White)
+	}
 	rl.DrawTexture(m.DodgeButton, 1420, 900, rl.White)
+	if x_mouse > m.Bouton_X+220 && x_mouse < m.Bouton_X+400 && y_mouse > m.Bouton_Y+900 && y_mouse < m.Bouton_Y+1300 {
+		rl.DrawTexture(m.DodgeButtonHover, 0, 0, rl.White)
+	}
 
 	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
 	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
