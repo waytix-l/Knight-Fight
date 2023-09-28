@@ -133,9 +133,13 @@ type Menu struct {
 	Vector_sol_donjon rl.Vector2
 
 	Attack1Button rl.Texture2D
+	Attack1ButtonHover rl.Texture2D
 	Attack2Button rl.Texture2D
+	Attack2ButtonHover rl.Texture2D
 	Attack3Button rl.Texture2D
+	Attack3ButtonHover rl.Texture2D
 	DodgeButton   rl.Texture2D
+	DodgeButtonHover rl.Texture2D
 }
 
 func (m *Menu) Init_Menu() {
@@ -203,8 +207,13 @@ func (m *Menu) Init_Menu() {
 
 	m.Attack1Button = rl.LoadTexture("assets/Tilesets/buttonattack1.png")
 	m.Attack2Button = rl.LoadTexture("assets/Tilesets/buttonattack2.png")
-	m.Attack3Button	= rl.LoadTexture("assets/Tilesets/buttonattack3.png")
+	m.Attack3Button = rl.LoadTexture("assets/Tilesets/buttonattack3.png")
 	m.DodgeButton = rl.LoadTexture("assets/Tilesets/buttondodge.png")
+
+	m.Attack1ButtonHover = rl.LoadTexture("assets/Tilesets/attack1.2.png")
+	m.Attack2ButtonHover = rl.LoadTexture("assets/Tilesets/attack2.2.png")
+	m.Attack3ButtonHover = rl.LoadTexture("ssets/Tilesets/attack3.2.png")
+	m.DodgeButtonHover = rl.LoadTexture("assets/Tilesets/dodge2.1.png")
 }
 
 //----- Affichage Menu Principal -----//
@@ -488,8 +497,13 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
+	x_mouse := rl.GetMouseX()
+	y_mouse := rl.GetMouseY()
+
 	rl.DrawTexture(m.Attack1Button, 220, 900, rl.White)
-	if x_mouse > m.Bouton_X+220 && x_mouse < m.Bouton_X+280 && y_mouse > m.Bouton_Y+900 && y_mouse < m.Bouton_Y+1000 {}
+	if x_mouse > m.Bouton_X+220 && x_mouse < m.Bouton_X+400 && y_mouse > m.Bouton_Y+900 && y_mouse < m.Bouton_Y+1300 {
+		rl.DrawTexture(m.Attack1ButtonHover, 0, 0, rl.White)
+	}
 	rl.DrawTexture(m.Attack2Button, 620, 900, rl.White)
 	rl.DrawTexture(m.Attack3Button, 1020, 900, rl.White)
 	rl.DrawTexture(m.DodgeButton, 1420, 900, rl.White)
