@@ -536,7 +536,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			//perso.sprite = rl.LoadTexture(aaa)
 			//perso.Sr_sprite.X = 0
 			//perso.dodgegif = true
-		}
+		//}
 	}
 
 	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
@@ -770,7 +770,7 @@ type Personnage struct {
 
 	attack3      bool
 	dodge        bool
-	dodgegif 	rl.Texture2D
+	//dodgegif 	rl.Texture2D
 	timer_attack int
 }
 
@@ -803,7 +803,7 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.attack3 = false
 	p.dodge = false
 	p.timer_attack = 0
-	p.dodgegif = rl.LoadTexture(asset/)
+	//p.dodgegif = rl.LoadTexture(asset/)
 }
 
 type Enemy struct {
