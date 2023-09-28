@@ -669,7 +669,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			}
 		} else if perso.timer_attack <= 88 && perso.timer_attack > 68 {
 			perso.Dr_sprite.X -= 18.9
-			perso.Dr_sprite.Y += 9
+			perso.Dr_sprite.Y += 8.4
 		} else {
 			enemy.currentHealthPoint -= 100
 			perso.timer_attack = 0
