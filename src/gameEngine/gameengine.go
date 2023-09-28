@@ -364,7 +364,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 			perso.jump = true
 		}
 
-	} else if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
+	} else if (rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight)) && perso.Dr_sprite.X < 1825 {
 		perso.FrameCount++
 		perso.Dr_sprite.X += perso.Sprite_Speed
 		if perso.FrameCount == 3 {
