@@ -165,7 +165,6 @@ func (m *Menu) Init_Menu() {
 
 	m.FrameCount = 0
 
-
 	m.Lore_Display_Frame = 0
 
 	//----- Menu Jeu -----//
@@ -203,7 +202,7 @@ func (m *Menu) Init_Menu() {
 	m.Vector_sol_donjon = rl.NewVector2(0, 0)
 }
 
-//----- Menu
+//----- Affichage Menu Principal -----//
 
 func (m *Menu) Afficher_Menu_Principal() {
 
@@ -261,6 +260,8 @@ func (m *Menu) Afficher_Menu_Principal() {
 	rl.EndDrawing()
 }
 
+//----- Affichage Lore -----//
+
 func (m *Menu) Lore_Display() {
 	m.Lore_Display_Frame++
 	rl.BeginDrawing()
@@ -300,6 +301,7 @@ func (m *Menu) Lore_Display() {
 	rl.EndDrawing()
 }
 
+//----- Affichage Jeu Scene Montagne -----//
 
 func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	rl.BeginDrawing()
@@ -454,6 +456,8 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 
 }
 
+//----- Affichage scene de combat donjon -----//
+
 func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 
 	rl.BeginDrawing()
@@ -594,7 +598,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 				0,
 				rl.White,
 			)
-			if perso.timer_attack % 3 == 0 {
+			if perso.timer_attack%3 == 0 {
 				perso.Sr_attack2.X += 240
 			}
 		} else if perso.timer_attack <= 76 && perso.timer_attack > 56 {
@@ -605,7 +609,6 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.Sr_attack2.X = 0
 		}
 	}
-
 
 	if perso.attack3 {
 		perso.timer_attack++
@@ -664,15 +667,24 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 
 }
 
-func Fight(perso *Personnage, enemy *Enemy) {
+//----- Fonction Combat -----//
 
+func Fight(perso *Personnage, enemy *Enemy) {
+	round := 0
+	for perso.currentHealthPoint == 0 || enemy.currentHealthPoint == 0 {
+		round++
+		
+	}
 
 }
 
+//----- Affichage scene 2eme donjon dévérouillé -----//
 
 func (m *Menu) Afficher_Menu_Jeu_porte2(perso *Personnage) {
 
 }
+
+//----- Type, Structure et Méthodes -----//
 
 type ClassPerso int
 
@@ -689,26 +701,26 @@ type Personnage struct {
 	currentHealthPoint int
 	inventory          map[string]int
 
-	sprite        rl.Texture2D
-	Sr_sprite     rl.Rectangle
-	Dr_sprite     rl.Rectangle
-	Vector_sprite rl.Vector2
-	FrameCount    int
-	Sprite_Speed  float32
-	Running       bool
-	Donjon        int
-	jump          bool
-	jump_timer    int
-	attack1       bool
-	attack2       bool
-	attack2_anim rl.Texture2D
-	Sr_attack2 rl.Rectangle
-	Dr_attack2 rl.Rectangle
+	sprite         rl.Texture2D
+	Sr_sprite      rl.Rectangle
+	Dr_sprite      rl.Rectangle
+	Vector_sprite  rl.Vector2
+	FrameCount     int
+	Sprite_Speed   float32
+	Running        bool
+	Donjon         int
+	jump           bool
+	jump_timer     int
+	attack1        bool
+	attack2        bool
+	attack2_anim   rl.Texture2D
+	Sr_attack2     rl.Rectangle
+	Dr_attack2     rl.Rectangle
 	Vector_attack2 rl.Vector2
 
-	attack3       bool
-	dodge         bool
-	timer_attack  int
+	attack3      bool
+	dodge        bool
+	timer_attack int
 }
 
 func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoint int, CurrentHealthPoint int, Inventory map[string]int) {
@@ -818,4 +830,3 @@ func (r *DestRectangle) InitDestRectangle(x float32, y float32, width float32, h
 	r.Width = width
 	r.Height = height
 }
-
