@@ -140,6 +140,8 @@ type Menu struct {
 	Attack3ButtonHover rl.Texture2D
 	DodgeButton   rl.Texture2D
 	DodgeButtonHover rl.Texture2D
+
+	Fight bool
 }
 
 func (m *Menu) Init_Menu() {
@@ -214,6 +216,8 @@ func (m *Menu) Init_Menu() {
 	m.Attack2ButtonHover = rl.LoadTexture("assets/Tilesets/attack2.2.png")
 	m.Attack3ButtonHover = rl.LoadTexture("assets/Tilesets/attack3.2.png")
 	m.DodgeButtonHover = rl.LoadTexture("assets/Tilesets/dodge2.1.png")
+
+	m.Fight = false
 }
 
 //----- Affichage Menu Principal -----//
@@ -455,7 +459,7 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 		rl.DrawText("ENTRER DANS LE DONJON", 1000, 780, 15, rl.Red)
 		if rl.IsKeyPressed(rl.KeyC) {
 			m.menu = 3
-			perso.Dr_sprite.Y = 860
+			perso.Dr_sprite.Y = 565
 			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 			perso.Dr_sprite.X = 600
 			perso.Donjon = 1
@@ -584,7 +588,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
-	perso.Dr_sprite.Y = 565
+	
 	perso.Dr_sprite.Width = 256
 	perso.Dr_sprite.Height = 256
 
@@ -599,19 +603,9 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 
 	enemy.Frame_count_sprite++
 
-	if rl.IsKeyPressed(rl.KeyG) {
-		perso.sprite = rl.LoadTexture("assets/Tilesets/Attack_1.png")
-		perso.Sr_sprite.X = 0
-		perso.attack1 = true
-	} else if rl.IsKeyPressed(rl.KeyH) {
+	if rl.IsKeyPressed(rl.KeyH) {
 		enemy.Enemy_attack1 = true
-	} else if rl.IsKeyPressed(rl.KeyB) {
-		perso.attack2 = true
-	} else if rl.IsKeyPressed(rl.KeyJ) {
-		perso.sprite = rl.LoadTexture("assets/Tilesets/Attack_3.png")
-		perso.Sr_sprite.X = 0
-		perso.attack3 = true
-	}
+	} 
 
 	if perso.attack1 {
 		perso.timer_attack++
@@ -661,13 +655,16 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	if perso.attack3 {
 		perso.timer_attack++
 		if perso.timer_attack < 20 {
-			perso.Dr_sprite.X += 22
-		} else if perso.timer_attack <= 48 && perso.timer_attack >= 20 {
+			perso.Dr_sprite.X += 20
+		} else if perso.timer_attack <= 40 && perso.timer_attack >= 20 {
+			perso.Dr_sprite.Y -= 8
+		} else if perso.timer_attack <= 68 && perso.timer_attack > 40 {
 			if perso.timer_attack%4 == 0 {
 				perso.Sr_sprite.X += 128
 			}
-		} else if perso.timer_attack <= 68 && perso.timer_attack > 48 {
-			perso.Dr_sprite.X -= 20.8
+		} else if perso.timer_attack <= 88 && perso.timer_attack > 68 {
+			perso.Dr_sprite.X -= 18.9
+			perso.Dr_sprite.Y += 9
 		} else {
 			enemy.currentHealthPoint -= 100
 			perso.timer_attack = 0
