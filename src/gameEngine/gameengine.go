@@ -34,7 +34,7 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 
 	var perso Personnage
 	inventaire := make(map[string]int)
-	perso.Init("Lukas", Archer, 1, 100, 60, inventaire)
+	perso.Init("Lukas", Archer, 1, 100, 100, inventaire)
 	var enemy Enemy
 	enemy.Init()
 
@@ -212,7 +212,7 @@ func (m *Menu) Init_Menu() {
 
 	m.Attack1ButtonHover = rl.LoadTexture("assets/Tilesets/attack1.2.png")
 	m.Attack2ButtonHover = rl.LoadTexture("assets/Tilesets/attack2.2.png")
-	m.Attack3ButtonHover = rl.LoadTexture("ssets/Tilesets/attack3.2.png")
+	m.Attack3ButtonHover = rl.LoadTexture("assets/Tilesets/attack3.2.png")
 	m.DodgeButtonHover = rl.LoadTexture("assets/Tilesets/dodge2.1.png")
 }
 
@@ -501,20 +501,33 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	y_mouse := rl.GetMouseY()
 
 	rl.DrawTexture(m.Attack1Button, 220, 900, rl.White)
-	if x_mouse > m.Bouton_X+220 && x_mouse < m.Bouton_X+400 && y_mouse > m.Bouton_Y+900 && y_mouse < m.Bouton_Y+1300 {
-		rl.DrawTexture(m.Attack1ButtonHover, 0, 0, rl.White)
+	if x_mouse > 220 && x_mouse < 470 && y_mouse > 900 && y_mouse < 1030 {
+		rl.DrawTexture(m.Attack1ButtonHover, 220, 900, rl.White)
+		if rl.IsMouseButtonPressed(0) {
+			perso.sprite = rl.LoadTexture("assets/Tilesets/Attack_1.png")
+			perso.Sr_sprite.X = 0
+			perso.attack1 = true
+		}
 	}
 	rl.DrawTexture(m.Attack2Button, 620, 900, rl.White)
-	if x_mouse > m.Bouton_X+220 && x_mouse < m.Bouton_X+400 && y_mouse > m.Bouton_Y+900 && y_mouse < m.Bouton_Y+1300 {
-		rl.DrawTexture(m.Attack2ButtonHover, 0, 0, rl.White)
+	if x_mouse > 620 && x_mouse < 870 && y_mouse > 900 && y_mouse < 1030 {
+		rl.DrawTexture(m.Attack2ButtonHover, 620, 900, rl.White)
+		if rl.IsMouseButtonPressed(0) {
+			perso.attack2 = true
+		}
 	}
 	rl.DrawTexture(m.Attack3Button, 1020, 900, rl.White)
-	if x_mouse > m.Bouton_X+220 && x_mouse < m.Bouton_X+400 && y_mouse > m.Bouton_Y+900 && y_mouse < m.Bouton_Y+1300 {
-		rl.DrawTexture(m.Attack3ButtonHover, 0, 0, rl.White)
+	if x_mouse > 1020 && x_mouse < 1270 && y_mouse > 900 && y_mouse < 1030 {
+		rl.DrawTexture(m.Attack3ButtonHover, 1020, 900, rl.White)
+		if rl.IsMouseButtonPressed(0) {
+			perso.sprite = rl.LoadTexture("assets/Tilesets/Attack_3.png")
+			perso.Sr_sprite.X = 0
+			perso.attack3 = true
+		}
 	}
 	rl.DrawTexture(m.DodgeButton, 1420, 900, rl.White)
-	if x_mouse > m.Bouton_X+220 && x_mouse < m.Bouton_X+400 && y_mouse > m.Bouton_Y+900 && y_mouse < m.Bouton_Y+1300 {
-		rl.DrawTexture(m.DodgeButtonHover, 0, 0, rl.White)
+	if x_mouse > 1420 && x_mouse < 1670 && y_mouse > 900 && y_mouse < 1030 {
+		rl.DrawTexture(m.DodgeButtonHover, 1420, 900, rl.White)
 	}
 
 	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
@@ -638,6 +651,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		} else if perso.timer_attack <= 76 && perso.timer_attack > 56 {
 			perso.Dr_sprite.X -= 20
 		} else {
+			enemy.currentHealthPoint -= 150
 			perso.timer_attack = 0
 			perso.attack2 = false
 			perso.Sr_attack2.X = 0
