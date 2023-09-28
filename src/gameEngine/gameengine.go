@@ -132,10 +132,10 @@ type Menu struct {
 	Dr_sol_donjon     rl.Rectangle
 	Vector_sol_donjon rl.Vector2
 
-	Ath_donjon        rl.Texture2D
-	Sr_Ath_donjon     rl.Rectangle
-	Dr_Ath_donjon     rl.Rectangle
-	Vector_Ath_donjon rl.Vector2
+	Attack1Button rl.Texture2D
+	Attack2Button rl.Texture2D
+	Attack3Button rl.Texture2D
+	DodgeButton   rl.Texture2D
 }
 
 func (m *Menu) Init_Menu() {
@@ -200,6 +200,11 @@ func (m *Menu) Init_Menu() {
 	m.Sr_sol_donjon = rl.NewRectangle(0, 0, 970, 400)
 	m.Dr_sol_donjon = rl.NewRectangle(0, 0, 1920, 1080)
 	m.Vector_sol_donjon = rl.NewVector2(0, 0)
+
+	m.Attack1Button = rl.LoadTexture("assets/Tilesets/buttonattack1.png")
+	m.Attack2Button = rl.LoadTexture("assets/Tilesets/buttonattack2.png")
+	m.Attack3Button	= rl.LoadTexture("assets/Tilesets/buttonattack3.png")
+	m.DodgeButton = rl.LoadTexture("assets/Tilesets/buttondodge.png")
 }
 
 //----- Affichage Menu Principal -----//
@@ -483,6 +488,11 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		rl.RayWhite,
 	)
 
+	rl.DrawTexture(m.Attack1Button, 150, 900, rl.White)
+	rl.DrawTexture(m.Attack2Button, 600, 900, rl.White)
+	rl.DrawTexture(m.Attack3Button, 1200, 900, rl.White)
+	rl.DrawTexture(m.DodgeButton, 1800, 900, rl.White)
+
 	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
 	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
 	level := fmt.Sprint(perso.level)
@@ -673,7 +683,7 @@ func Fight(perso *Personnage, enemy *Enemy) {
 	round := 0
 	for perso.currentHealthPoint == 0 || enemy.currentHealthPoint == 0 {
 		round++
-		
+
 	}
 
 }
