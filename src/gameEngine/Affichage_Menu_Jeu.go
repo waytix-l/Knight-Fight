@@ -125,10 +125,9 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	rl.DrawText(class, 1670, 120, 30, rl.Black)
 
 	if rl.IsKeyPressed(rl.KeyG) {
-		if perso.currentHealthPoint < perso.maxHealthPoint {
-			perso.currentHealthPoint -= 10
+		if perso.currentHealthPoint <= perso.maxHealthPoint - 30 {
+			perso.currentHealthPoint += 30
 		}
-		perso.level++
 	}
 
 	if perso.Dr_sprite.X > 440 && perso.Dr_sprite.X < 560 {
