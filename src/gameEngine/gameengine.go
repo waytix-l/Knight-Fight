@@ -33,7 +33,7 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 
 	var perso Personnage
 	inventaire := make(map[string]int)
-	perso.Init("Lukas", Archer, 1, 100, 70, inventaire)
+	perso.Init("Lukas", Archer, 1, 100, 60, inventaire)
 	var enemy Enemy
 	enemy.Init()
 

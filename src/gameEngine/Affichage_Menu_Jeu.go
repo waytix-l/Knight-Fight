@@ -127,6 +127,8 @@ func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	if rl.IsKeyPressed(rl.KeyG) {
 		if perso.currentHealthPoint <= perso.maxHealthPoint - 30 {
 			perso.currentHealthPoint += 30
+		} else if perso.currentHealthPoint < perso.maxHealthPoint {
+			perso.currentHealthPoint = perso.maxHealthPoint
 		}
 	}
 
