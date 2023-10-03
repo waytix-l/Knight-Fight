@@ -114,21 +114,21 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.attack3 = true
 		}
 	}
-
+	
 	rl.DrawTexture(m.DodgeButton, 1420, 900, rl.White)
 	if x_mouse > 1420 && x_mouse < 1670 && y_mouse > 900 && y_mouse < 1030 {
 		rl.DrawTexture(m.DodgeButtonHover, 1420, 900, rl.White)
 		if rl.IsMouseButtonPressed(0){
 		perso.sprite = rl.LoadTexture("assets/Tilesets/Dodge_effect.png")
 		perso.Sr_sprite.X = 0
-		perso.Dodge_effect = true
+		perso.dodge = true
 		}
 	}
 
 	currentHealthPoint := fmt.Sprint(perso.currentHealthPoint)
 	maxHealthPoint := fmt.Sprint(perso.maxHealthPoint)
 	level := fmt.Sprint(perso.level)
-	//perso
+
 	couleur_vie_perso := rl.Green
 	if perso.currentHealthPoint <= perso.maxHealthPoint/10 {
 		couleur_vie_perso = rl.Red
