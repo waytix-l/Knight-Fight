@@ -119,9 +119,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	if x_mouse > 1420 && x_mouse < 1670 && y_mouse > 900 && y_mouse < 1030 {
 		rl.DrawTexture(m.DodgeButtonHover, 1420, 900, rl.White)
 		if rl.IsMouseButtonPressed(0){
-		perso.sprite = rl.LoadTexture("assets/Tilesets/Dodge_effect.png")
-		perso.Sr_sprite.X = 0
-		perso.dodge = true
+			perso.dodge = true
 		}
 	}
 
@@ -261,6 +259,28 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.attack3 = false
 			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 			perso.Sr_sprite.X = 0
+		}
+	}
+
+	if perso.dodge {
+		perso.timer_attack++
+		if perso.timer_attack < 56 {
+			rl.DrawTexturePro(
+				perso.Dodge_effect,
+				perso.sr_dodge,
+				perso.dr_dodge,
+				perso.Vector_dodge,
+				0,
+				rl.White,
+			)
+			if perso.timer_attack % 4 == 0 {
+				perso.sr_dodge.X += 248
+			}
+
+		} else {
+			perso.dodge = false
+			perso.timer_attack = 0
+			perso.sr_dodge.X = 0
 		}
 	}
 

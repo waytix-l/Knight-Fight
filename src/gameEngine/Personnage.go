@@ -4,7 +4,6 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-
 type ClassPerso int
 
 const (
@@ -39,8 +38,12 @@ type Personnage struct {
 
 	attack3      bool
 	dodge        bool
-	Dodge_effect 	rl.Texture2D
+	Dodge_effect rl.Texture2D
 	timer_attack int
+
+	sr_dodge     rl.Rectangle
+	dr_dodge     rl.Rectangle
+	Vector_dodge rl.Vector2
 }
 
 func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoint int, CurrentHealthPoint int, Inventory map[string]int) {
@@ -71,7 +74,10 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 
 	p.attack3 = false
 	p.dodge = false
+	p.sr_dodge = rl.NewRectangle(0, 0, 248, 248)
+	p.dr_dodge = rl.NewRectangle(450, 500, 496, 496)
+	p.Vector_dodge = rl.NewVector2(0, 0)
 	p.timer_attack = 0
-	
+
 	p.Dodge_effect = rl.LoadTexture("assets/Tilesets/Dodge_effect.png")
 }
