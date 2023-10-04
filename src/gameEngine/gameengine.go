@@ -334,12 +334,12 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		)
 		if rl.IsKeyPressed(rl.KeyEnter) {
 			m.menu = 2
-		perso.Dr_sprite.X = 950
-		perso.Dr_sprite.Y = 840
-		perso.Dr_sprite.Width = 128
-		perso.Dr_sprite.Height = 128
-		perso.currentHealthPoint = perso.maxHealthPoint / 2
-		perso.timer_attack = 0
+			perso.Dr_sprite.X = 950
+			perso.Dr_sprite.Y = 840
+			perso.Dr_sprite.Width = 128
+			perso.Dr_sprite.Height = 128
+			perso.currentHealthPoint = perso.maxHealthPoint / 2
+			perso.timer_attack = 0
 		}
 	}
 
