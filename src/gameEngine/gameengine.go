@@ -211,6 +211,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.attack1 = false
 			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 			perso.Sr_sprite.X = 0
+			enemy.Enemy_attack1 = true
 		}
 	}
 
@@ -237,6 +238,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.timer_attack = 0
 			perso.attack2 = false
 			perso.Sr_attack2.X = 0
+			enemy.Enemy_attack1 = true
 		}
 	}
 
@@ -259,7 +261,9 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.attack3 = false
 			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 			perso.Sr_sprite.X = 0
+			enemy.Enemy_attack1 = true
 		}
+		
 	}
 
 	if perso.dodge {
