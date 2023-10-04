@@ -320,7 +320,27 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.Dr_sprite.Height = 128
 			perso.timer_attack = 0
 		}
+	}
 
+	if perso.currentHealthPoint <= 0 {
+
+		rl.DrawTexturePro(
+			perso.dead_screen,
+			perso.sr_dead,
+			perso.dr_dead,
+			perso.vector_dead,
+			0,
+			rl.Gray,
+		)
+		if rl.IsKeyPressed(rl.KeyEnter) {
+			m.menu = 2
+		perso.Dr_sprite.X = 950
+		perso.Dr_sprite.Y = 840
+		perso.Dr_sprite.Width = 128
+		perso.Dr_sprite.Height = 128
+		perso.currentHealthPoint = perso.maxHealthPoint / 2
+		perso.timer_attack = 0
+		}
 	}
 
 	rl.EndDrawing()

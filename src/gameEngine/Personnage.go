@@ -44,6 +44,11 @@ type Personnage struct {
 	sr_dodge     rl.Rectangle
 	dr_dodge     rl.Rectangle
 	Vector_dodge rl.Vector2
+
+	dead_screen rl.Texture2D
+	sr_dead rl.Rectangle
+	dr_dead rl.Rectangle
+	vector_dead rl.Vector2
 }
 
 func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoint int, CurrentHealthPoint int, Inventory map[string]int) {
@@ -80,4 +85,9 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.timer_attack = 0
 
 	p.Dodge_effect = rl.LoadTexture("assets/Tilesets/Dodge_effect.png")
+
+	p.dead_screen = rl.LoadTexture("assets/Tilesets/YOUAREDEADSCREEN.png")
+	p.sr_dead = rl.NewRectangle(0, 0, 1920, 500)
+	p.dr_dead = rl.NewRectangle(0, 300, 1920, 500)
+	p.vector_dead = rl.NewVector2(0, 0)
 }
