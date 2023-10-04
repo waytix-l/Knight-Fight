@@ -114,11 +114,11 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.attack3 = true
 		}
 	}
-	
+
 	rl.DrawTexture(m.DodgeButton, 1420, 900, rl.White)
 	if x_mouse > 1420 && x_mouse < 1670 && y_mouse > 900 && y_mouse < 1030 {
 		rl.DrawTexture(m.DodgeButtonHover, 1420, 900, rl.White)
-		if rl.IsMouseButtonPressed(0){
+		if rl.IsMouseButtonPressed(0) {
 			perso.dodge = true
 		}
 	}
@@ -263,7 +263,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.Sr_sprite.X = 0
 			enemy.Enemy_attack1 = true
 		}
-		
+
 	}
 
 	if perso.dodge {
@@ -277,7 +277,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 				0,
 				rl.White,
 			)
-			if perso.timer_attack % 4 == 0 {
+			if perso.timer_attack%4 == 0 {
 				perso.sr_dodge.X += 248
 			}
 
@@ -308,6 +308,19 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			enemy.Enemy_attack1 = false
 			enemy.timer_attack = 0
 		}
+	}
+
+	if enemy.currentHealthPoint <= 0 {
+		perso.timer_attack++
+		if perso.timer_attack > 40 {
+			m.menu = 2
+			perso.Dr_sprite.X = 950
+			perso.Dr_sprite.Y = 840
+			perso.Dr_sprite.Width = 128
+			perso.Dr_sprite.Height = 128
+			perso.timer_attack = 0
+		}
+
 	}
 
 	rl.EndDrawing()
