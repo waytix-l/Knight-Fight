@@ -19,17 +19,22 @@ type Personnage struct {
 	currentHealthPoint int
 	inventory          map[string]int
 
-	sprite         rl.Texture2D
-	Sr_sprite      rl.Rectangle
-	Dr_sprite      rl.Rectangle
-	Vector_sprite  rl.Vector2
-	FrameCount     int
-	Sprite_Speed   float32
-	Running        bool
-	Donjon         int
-	jump           bool
-	jump_timer     int
-	attack1        bool
+	sprite        rl.Texture2D
+	Sr_sprite     rl.Rectangle
+	Dr_sprite     rl.Rectangle
+	Vector_sprite rl.Vector2
+	FrameCount    int
+	Sprite_Speed  float32
+	Running       bool
+	Donjon        int
+	jump          bool
+	jump_timer    int
+	attack1       bool
+	rayon         rl.Texture2D
+	Sr_rayon      rl.Rectangle
+	Dr_rayon      rl.Rectangle
+	Vector_rayon  rl.Vector2
+
 	attack2        bool
 	attack2_anim   rl.Texture2D
 	Sr_attack2     rl.Rectangle
@@ -46,8 +51,8 @@ type Personnage struct {
 	Vector_dodge rl.Vector2
 
 	dead_screen rl.Texture2D
-	sr_dead rl.Rectangle
-	dr_dead rl.Rectangle
+	sr_dead     rl.Rectangle
+	dr_dead     rl.Rectangle
 	vector_dead rl.Vector2
 }
 
@@ -69,7 +74,13 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.Donjon = 0
 	p.jump = false
 	p.jump_timer = 0
+
 	p.attack1 = false
+	p.rayon = rl.LoadTexture("assets/Tilesets/rayon_violet.png")
+	p.Sr_rayon = rl.NewRectangle(0, 0, 128, 32)
+	p.Dr_rayon = rl.NewRectangle(720, 700, 512, 128)	
+	p.Vector_rayon = rl.NewVector2(0, 0)
+	
 	p.attack2 = false
 
 	p.attack2_anim = rl.LoadTexture("assets/Tilesets/spritesheet_animatedsword.png")
@@ -80,7 +91,7 @@ func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoi
 	p.attack3 = false
 	p.dodge = false
 	p.sr_dodge = rl.NewRectangle(0, 0, 248, 248)
-	p.dr_dodge = rl.NewRectangle(450, 500, 496, 496)
+	p.dr_dodge = rl.NewRectangle(480, 490, 496, 496)
 	p.Vector_dodge = rl.NewVector2(0, 0)
 	p.timer_attack = 0
 

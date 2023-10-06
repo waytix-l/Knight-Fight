@@ -27,7 +27,7 @@ type Enemy struct {
 
 func (e *Enemy) Init() {
 	e.name = "Zeljko"
-	e.level = 20
+	e.level = 5
 	e.MaxHealthPoint = 300
 	e.currentHealthPoint = 300
 

@@ -33,7 +33,7 @@ func (g *GameEngine) RunningGameEngine(m *Menu) {
 
 	var perso Personnage
 	inventaire := make(map[string]int)
-	perso.Init("Lukas", Archer, 1, 100, 60, inventaire)
+	perso.Init("Lukas", Archer, 1, 100, 80, inventaire)
 	var enemy Enemy
 	enemy.Init()
 
@@ -196,7 +196,40 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	}
 
 	if perso.attack1 {
+
 		perso.timer_attack++
+		if perso.timer_attack < 90 {
+			rl.DrawTexturePro(
+				perso.rayon,
+				perso.Sr_rayon,
+				perso.Dr_rayon,
+				perso.Vector_rayon,
+				-15,
+				rl.White,
+			)
+			if perso.timer_attack % 3 == 0 {
+				perso.Sr_rayon.X += 128
+			}
+		} else if perso.timer_attack < 200 && perso.timer_attack >= 90 {
+			rl.DrawTexturePro(
+				perso.rayon,
+				perso.Sr_rayon,
+				perso.Dr_rayon,
+				perso.Vector_rayon,
+				-15,
+				rl.White,
+			)
+			perso.Sr_rayon.X = 3712
+		} else {
+			enemy.currentHealthPoint -= 200
+			perso.timer_attack = 0
+			perso.attack1 = false
+			perso.Sr_rayon.X = 0
+			enemy.Enemy_attack1 = true
+		}
+
+
+		/*perso.timer_attack++
 		if perso.timer_attack < 20 {
 			perso.Dr_sprite.X += perso.Sprite_Speed * 7.2
 		} else if perso.timer_attack <= 60 && perso.timer_attack >= 20 {
@@ -212,7 +245,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 			perso.sprite = rl.LoadTexture("assets/Tilesets/Idle.png")
 			perso.Sr_sprite.X = 0
 			enemy.Enemy_attack1 = true
-		}
+		}*/
 	}
 
 	if perso.attack2 {
@@ -289,16 +322,18 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	}
 
 	if enemy.Enemy_attack1 {
-		rl.DrawTexturePro(
-			enemy.Sprite_attack1,
-			enemy.Sr_Sprite_attack1,
-			enemy.Dr_Sprite_attack1,
-			enemy.Vector_Sprite_attack1,
-			0,
-			rl.White,
-		)
 		enemy.timer_attack++
-		if enemy.timer_attack <= 20 {
+		if enemy.timer_attack < 20 {
+
+		} else if enemy.timer_attack < 40 && enemy.timer_attack >= 20 {
+			rl.DrawTexturePro(
+				enemy.Sprite_attack1,
+				enemy.Sr_Sprite_attack1,
+				enemy.Dr_Sprite_attack1,
+				enemy.Vector_Sprite_attack1,
+				0,
+				rl.White,
+			)
 			if enemy.timer_attack%4 == 0 {
 				enemy.Sr_Sprite_attack1.X += 112.6
 			}
@@ -311,6 +346,7 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 	}
 
 	if enemy.currentHealthPoint <= 0 {
+		enemy.currentHealthPoint = 0
 		perso.timer_attack++
 		if perso.timer_attack > 40 {
 			m.menu = 2
@@ -357,13 +393,4 @@ func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 		perso.Dr_sprite.Height = 128
 	}
 
-}
-
-//----- Fonction Combat -----//
-
-func Fight(perso *Personnage, enemy *Enemy) {
-	round := 0
-	for perso.currentHealthPoint == 0 || enemy.currentHealthPoint == 0 {
-		round++
-	}
 }
