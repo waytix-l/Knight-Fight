@@ -2,8 +2,6 @@ package main
 
 import (
 	ge "game/gameEngine"
-
-	//rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 func main() {
