@@ -4,6 +4,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+//----- Enemy structure -----//
+
 type Enemy struct {
 	name               string
 	level              int
@@ -24,6 +26,8 @@ type Enemy struct {
 	Vector_Sprite_attack1 rl.Vector2
 	timer_attack          int
 }
+
+//---- Enemy Init -----//
 
 func (e *Enemy) Init() {
 	e.name = "Zeljko"

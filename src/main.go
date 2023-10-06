@@ -4,6 +4,8 @@ import (
 	ge "game/gameEngine"
 )
 
+//----- Main Function -----//
+
 func main() {
 	var g ge.GameEngine
 	var m ge.Menu

@@ -4,6 +4,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+//----- Lore Gestion & display -----//
+
 func (m *Menu) Lore_Display() {
 	m.Lore_Display_Frame++
 	rl.BeginDrawing()

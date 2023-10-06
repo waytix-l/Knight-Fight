@@ -6,6 +6,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+//----- Fight Gestion -----//
+
 func (m *Menu) Afficher_Donjon(perso *Personnage, enemy *Enemy) {
 
 	rl.BeginDrawing()

@@ -4,12 +4,16 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+//----- Class type -----//
+
 type ClassPerso int
 
 const (
 	Archer  ClassPerso = iota
 	Warrior ClassPerso = iota
 )
+
+//----- Character structure -----//
 
 type Personnage struct {
 	name               string
@@ -55,6 +59,8 @@ type Personnage struct {
 	dr_dead     rl.Rectangle
 	vector_dead rl.Vector2
 }
+
+//----- Init character -----//
 
 func (p *Personnage) Init(Name string, Class ClassPerso, Level int, MaxHealthPoint int, CurrentHealthPoint int, Inventory map[string]int) {
 	p.name = Name

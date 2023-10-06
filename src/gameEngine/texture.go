@@ -4,6 +4,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+//----- Load all textures -----//
+
 func (m *Menu) Init_Menu() {
 
 	m.menu = 0

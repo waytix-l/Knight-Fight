@@ -4,6 +4,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+//----- Menu structure -----//
+
 type Menu struct {
 	menu int
 

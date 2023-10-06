@@ -6,6 +6,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+//---- Main game scene gestion & display -----//
+
 func (m *Menu) Afficher_Menu_Jeu(perso *Personnage) {
 	rl.BeginDrawing()
 	rl.ClearBackground(rl.White)

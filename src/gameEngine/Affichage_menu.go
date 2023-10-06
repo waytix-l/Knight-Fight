@@ -4,6 +4,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+//----- Main Menu gestion & display -----//
+
 func (m *Menu) Afficher_Menu_Principal() {
 
 	m.FrameCount++
